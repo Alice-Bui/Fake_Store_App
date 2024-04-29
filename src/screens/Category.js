@@ -7,10 +7,10 @@ export default function Home({navigation, route}) {
   const [categories, displayCategories] = useState([]);
   const categoryColor = ["#575FCE", "#7E8ADC", "#F6768D", "#EE5776"];
 
-  const productListPage = (categoryName)=>navigation.navigate({name: 'Product List', params: {category: categoryName}})
+  const productListScreen = (categoryName)=>navigation.navigate({name: 'Product List', params: {category: categoryName}})
 
   useEffect(()=>{
-    const fetchCategory = async() => {
+    const fetchCategories = async() => {
         try {
             const res= await fetch(url)
             const data = await res.json();
@@ -21,7 +21,7 @@ export default function Home({navigation, route}) {
             return [];
         }
     }
-    fetchCategory()
+    fetchCategories()
   },[])
 
 
@@ -33,7 +33,7 @@ export default function Home({navigation, route}) {
             category = category.replace(/\b\w/g, (c)=>c.toUpperCase()).replace(/'\w/g, (c)=>c.toLowerCase());
             const color = categoryColor[idx%4]
             return (
-                <Pressable style={[styles.category, {backgroundColor: color}]} key={idx} onPress={()=>productListPage(category)}>
+                <Pressable style={[styles.category, {backgroundColor: color}]} key={idx} onPress={()=>productListScreen(category)}>
                     <Text style={styles.categoryName}>{category}</Text>
                 </Pressable>
             )
@@ -49,9 +49,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6F3FD',
     alignItems: 'center',
     paddingHorizontal: '2%',
-    paddingVertical: '5%'
+    paddingVertical: '7%'
   },
   categoryContainer: {
+    marginVertical: '10%',
     width: "100%",
     flexWrap: 'wrap',
     flexDirection: 'row',
