@@ -9,6 +9,8 @@ export default function ProductList({navigation, route}) {
     const [products, displayProducts] = useState([]);
     
     const categoryScreen = ()=>navigation.navigate('Category')
+    const productDetailScreen = (productID)=>navigation.navigate({name: 'Product Detail', params: {product: productID}})
+    
     //Listen for changes to {category} from Category Screen
     useEffect(()=> {
         if (route.params?.category) {
@@ -33,16 +35,6 @@ export default function ProductList({navigation, route}) {
         fetchProducts()
     }, [category])
 
-    /*<FlatList
-                    data={products}
-                    renderItem={({product}) => {
-                        <View style={styles.productContainer}>
-                            <Text style={styles.productName}>{product.title}</Text>
-                        </View>
-                    }}
-                    keyExtractor={(product, idx) => idx}
-                />*/
-
     return (
         <View style={styles.container}>
             <Title text={category}/>
@@ -50,7 +42,7 @@ export default function ProductList({navigation, route}) {
                 <FlatList
                     data={products}
                     renderItem={({item}) => (
-                        <View style={styles.product}>
+                        <Pressable style={styles.product} onPress={()=>productDetailScreen(item.id)}>
                             <Image source={{uri: item.image}} style={styles.productImage}/>
                             <View style={styles.productText}>
                                 <Text style={styles.productName}>
@@ -60,13 +52,13 @@ export default function ProductList({navigation, route}) {
                                     Price: €{item.price}
                                 </Text>
                             </View>
-                        </View>
+                        </Pressable>
                     )}
                     keyExtractor={(item) => item.id}
                     />
             </View>
-            <View style={[{height: '10%'}]}>
-                <Button text="Back" name="content-save-check" color="#8497ff" f={categoryScreen}/>
+            <View>
+                <Button text="Back" name="backspace" f={categoryScreen}/>
             </View>
 
         </View>
@@ -79,12 +71,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6F3FD',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: '2%',
+    paddingHorizontal: '5%',
     paddingVertical: '7%',
   },
   productContainer: {
     width: '100%',
-    height: '75%',
+    height: '80%',
   },
   product: {
     margin: '2%',

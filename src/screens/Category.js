@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Title from '../components/Title';
 
 const url = 'https://fakestoreapi.com/products/categories'
-export default function Home({navigation, route}) {
+export default function Home({navigation}) {
   const [categories, displayCategories] = useState([]);
   const categoryColor = ["#575FCE", "#7E8ADC", "#F6768D", "#EE5776"];
 
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F6F3FD',
     alignItems: 'center',
-    paddingHorizontal: '2%',
+    paddingHorizontal: '5%',
     paddingVertical: '7%'
   },
   categoryContainer: {
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   categoryName: {
     color: "white",
     fontFamily: 'Poppins_500Medium',
-    fontSize: 24,
+    fontSize: 22,
     textAlign: 'center'
   }
 });
