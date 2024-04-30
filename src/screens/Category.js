@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Pressable, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
 import Title from '../components/Title';
 
 const url = 'https://fakestoreapi.com/products/categories'
 export default function Home({navigation}) {
+  const [isLoading, setLoading] = useState(true)
   const [categories, displayCategories] = useState([]);
   const categoryColor = ["#575FCE", "#7E8ADC", "#F6768D", "#EE5776"];
 
@@ -18,27 +19,35 @@ export default function Home({navigation}) {
             displayCategories(data)
         } catch(error) {
             console.error('error fetch address ', error);
-            return [];
+        } finally {
+          setLoading(false);
         }
-    }
+    };
     fetchCategories()
   },[])
 
 
   return (
     <View style={styles.container}>
-      <Title text="Categories"/>
-      <View style = {styles.categoryContainer}>
-        {categories.map((category, idx) => {
-            category = category.replace(/\b\w/g, (c)=>c.toUpperCase()).replace(/'\w/g, (c)=>c.toLowerCase());
-            const color = categoryColor[idx%4]
-            return (
-                <Pressable style={[styles.category, {backgroundColor: color}]} key={idx} onPress={()=>productListScreen(category)}>
-                    <Text style={styles.categoryName}>{category}</Text>
-                </Pressable>
-            )
-        })}
-      </View>
+      {isLoading ? (
+        <View style={[{marginVertical: '75%'}]}>
+          <ActivityIndicator size="large" color="#8497ff"/>
+        </View>
+      ) : (<View>
+          <Title text="Categories"/>
+          <View style = {styles.categoryContainer}>
+            {categories.map((category, idx) => {
+                category = category.replace(/\b\w/g, (c)=>c.toUpperCase()).replace(/'\w/g, (c)=>c.toLowerCase());
+                const color = categoryColor[idx%4]
+                return (
+                    <Pressable style={[styles.category, {backgroundColor: color}]} key={idx} onPress={()=>productListScreen(category)}>
+                        <Text style={styles.categoryName}>{category}</Text>
+                    </Pressable>
+                )
+            })}
+          </View>
+        </View>
+      )}
     </View>
   );
 }
@@ -47,12 +56,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F6F3FD',
-    alignItems: 'center',
     paddingHorizontal: '5%',
-    paddingVertical: '7%'
+    paddingVertical: '7%',
   },
   categoryContainer: {
-    marginVertical: '10%',
+    marginVertical: '5%',
     width: "100%",
     flexWrap: 'wrap',
     flexDirection: 'row',

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable, FlatList, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
 import Title from '../components/Title';
 import Button from '../components/Button';
@@ -7,6 +7,8 @@ import { Poppins_400Regular } from '@expo-google-fonts/poppins';
 
 const url = 'https://fakestoreapi.com/products/'
 export default function ProductList({navigation, route}) {
+    const [isLoading, setLoading] = useState(true);
+    
     const [product, setProduct] = useState('');
     const [productDetails, displayProductDetails] = useState('')
     
@@ -30,45 +32,56 @@ export default function ProductList({navigation, route}) {
             } catch(error) {
                 console.error('error fetch address ', error);
                 return {};
+            } finally {
+                setLoading(false)
             }
         }
-        fetchProductDetails()
-    }, [product])
+        const timer = setTimeout(() => {
+            fetchProductDetails()
+        }, 1000); //Delay 1 second
+        return () => clearTimeout(timer);
+    }, [product]);
 
     return (
         <View style={styles.container}>
             <Title text="Product Details"/>
-            {productDetails && (<View>
-                <View style={styles.productDetailsContainer}>
-                    <Image source={{uri: productDetails.image}} style={styles.productImage}/>
+            {isLoading ? (
+                <View style={[{marginVertical: '75%'}]}>
+                    <ActivityIndicator size="large" color="#8497ff"/>
                 </View>
-                <View style={styles.detailsText}>
-                    <Text style={styles.productTitle}>{productDetails.title}</Text>
-                    
-                    <View style={styles.detailsNumber}>
-                        <Text style={styles.textKey}>Rate: 
-                            <Text style={styles.textValue}> {productDetails.rating.rate}</Text>
-                        </Text>
-                        <Text style={styles.textKey}>Sold: 
-                            <Text style={styles.textValue}> {productDetails.rating.count}</Text>
-                        </Text>
-                        <Text style={styles.textKey}>Price: 
-                            <Text style={styles.textValue}> {productDetails.price}</Text>
-                        </Text>
+            ) : (
+                <View>
+                    <View style={styles.productDetailsContainer}>
+                        <Image source={{uri: productDetails.image}} style={styles.productImage}/>
                     </View>
+                    <View style={styles.detailsText}>
+                        <Text style={styles.productTitle}>{productDetails.title}</Text>
+                        
+                        <View style={styles.detailsNumber}>
+                            <Text style={styles.textKey}>Rate: 
+                                <Text style={styles.textValue}> {productDetails.rating.rate}</Text>
+                            </Text>
+                            <Text style={styles.textKey}>Sold: 
+                                <Text style={styles.textValue}> {productDetails.rating.count}</Text>
+                            </Text>
+                            <Text style={styles.textKey}>Price: 
+                                <Text style={styles.textValue}> {productDetails.price}</Text>
+                            </Text>
+                        </View>
 
-                    <View style={styles.button}>
-                        <Button text="Back" name="backspace" f={productListScreen}/>
-                        <Button text="Add to Cart" name="cart"/>
-                    </View>
+                        <View style={styles.button}>
+                            <Button text="Back" name="backspace" f={productListScreen}/>
+                            <Button text="Add to Cart" name="cart"/>
+                        </View>
 
-                    <View style={styles.description}>
-                        <ScrollView>
-                            <Text style={styles.desText}>{productDetails.description}</Text>
-                        </ScrollView>
+                        <View style={styles.description}>
+                            <ScrollView>
+                                <Text style={styles.desText}>{productDetails.description}</Text>
+                            </ScrollView>
+                        </View>
                     </View>
                 </View>
-            </View>)}
+            )}
         </View>
     );
 }

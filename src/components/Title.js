@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontFamily: 'Poppins_600SemiBold',
-        fontSize: 30,
+        fontSize: 27,
         color: '#19274F',
     }
 });

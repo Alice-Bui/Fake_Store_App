@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View, Pressable, FlatList, Image } from 'react-native';
+import { StyleSheet, Text, View, Pressable, FlatList, Image, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
 import Title from '../components/Title';
 import Button from '../components/Button';
 
 const url = 'https://fakestoreapi.com/products/category/'
 export default function ProductList({navigation, route}) {
+    const [isLoading, setLoading] = useState(true);
+    
     const [category, setCategory] = useState('');
     const [products, displayProducts] = useState([]);
     
@@ -30,33 +32,43 @@ export default function ProductList({navigation, route}) {
             } catch(error) {
                 console.error('error fetch address ', error);
                 return [];
+            } finally {
+                setLoading(false)
             }
         }
-        fetchProducts()
-    }, [category])
+
+        const timer = setTimeout(() => {
+            fetchProducts();
+        }, 1000); //Delay 1 second
+        return () => clearTimeout(timer);
+    }, [category]);
 
     return (
         <View style={styles.container}>
             <Title text={category}/>
-            <View style = {styles.productContainer}>
-                <FlatList
-                    data={products}
-                    renderItem={({item}) => (
-                        <Pressable style={styles.product} onPress={()=>productDetailScreen(item.id)}>
-                            <Image source={{uri: item.image}} style={styles.productImage}/>
-                            <View style={styles.productText}>
-                                <Text style={styles.productName}>
-                                    {item.title}
-                                </Text>
-                                <Text style={styles.productPrice}>
-                                    Price: €{item.price}
-                                </Text>
-                            </View>
-                        </Pressable>
+                <View style = {styles.productContainer}>
+                    {isLoading ? (
+                        <ActivityIndicator size="large" color="#8497ff"/>
+                    ) : (
+                        <FlatList
+                        data={products}
+                        renderItem={({item}) => (
+                            <Pressable style={styles.product} onPress={()=>productDetailScreen(item.id)}>
+                                <Image source={{uri: item.image}} style={styles.productImage}/>
+                                <View style={styles.productText}>
+                                    <Text style={styles.productName}>
+                                        {item.title}
+                                    </Text>
+                                    <Text style={styles.productPrice}>
+                                        Price: €{item.price}
+                                    </Text>
+                                </View>
+                            </Pressable>
+                        )}
+                        keyExtractor={(item) => item.id}
+                        />
                     )}
-                    keyExtractor={(item) => item.id}
-                    />
-            </View>
+                </View>
             <View>
                 <Button text="Back" name="backspace" f={categoryScreen}/>
             </View>
@@ -76,13 +88,13 @@ const styles = StyleSheet.create({
   },
   productContainer: {
     width: '100%',
-    height: '80%',
+    height: '85%',
+    justifyContent: 'center'
   },
   product: {
     margin: '2%',
     padding: '2%',
     backgroundColor: 'white',
-    borderRadius: 6,
     flexDirection: 'row',
     borderWidth: 1,
     borderRadius: 10,
