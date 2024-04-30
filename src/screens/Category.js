@@ -15,7 +15,6 @@ export default function Home({navigation}) {
         try {
             const res= await fetch(url)
             const data = await res.json();
-            console.log(data)
             displayCategories(data)
         } catch(error) {
             console.error('error fetch address ', error);

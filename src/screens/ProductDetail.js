@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import Title from '../components/Title';
 import Button from '../components/Button';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Poppins_400Regular } from '@expo-google-fonts/poppins';
 
 const url = 'https://fakestoreapi.com/products/'
 export default function ProductList({navigation, route}) {
@@ -65,7 +64,7 @@ export default function ProductList({navigation, route}) {
                                 <Text style={styles.textValue}> {productDetails.rating.count}</Text>
                             </Text>
                             <Text style={styles.textKey}>Price: 
-                                <Text style={styles.textValue}> {productDetails.price}</Text>
+                                <Text style={styles.textValue}> €{productDetails.price}</Text>
                             </Text>
                         </View>
 
