@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { StyleSheet, Text, Pressable } from 'react-native';
 import { MaterialCommunityIcons } from "@expo/vector-icons"; 
 export default AddButton = function({text, name, f}){
   return (
@@ -22,6 +22,6 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 16,
         padding: 10,
-        fontFamily: 'Poppins_400Regular',
+        fontFamily: 'Poppins_500Medium',
     }
 });

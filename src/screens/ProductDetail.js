@@ -5,7 +5,7 @@ import Button from '../components/Button';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const url = 'https://fakestoreapi.com/products/'
-export default function ProductList({navigation, route}) {
+export const ProductDetails = ({navigation, route}) => {
     const [isLoading, setLoading] = useState(true);
     
     const [product, setProduct] = useState('');
@@ -45,7 +45,7 @@ export default function ProductList({navigation, route}) {
         <View style={styles.container}>
             <Title text="Product Details"/>
             {isLoading ? (
-                <View style={[{marginVertical: '75%'}]}>
+                <View style={[{marginVertical: '100%'}]}>
                     <ActivityIndicator size="large" color="#8497ff"/>
                 </View>
             ) : (
@@ -70,13 +70,16 @@ export default function ProductList({navigation, route}) {
 
                         <View style={styles.button}>
                             <Button text="Back" name="backspace" f={productListScreen}/>
-                            <Button text="Add to Cart" name="cart"/>
+                            <Button text="Add to Cart" name="cart-plus"/>
                         </View>
 
                         <View style={styles.description}>
-                            <ScrollView>
-                                <Text style={styles.desText}>{productDetails.description}</Text>
-                            </ScrollView>
+                            <Text style={styles.descriptionTitle}>Description:</Text>
+                            <View style={styles.descriptionText}>
+                                <ScrollView>
+                                    <Text style={styles.desText}>{productDetails.description}</Text>
+                                </ScrollView>
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -91,7 +94,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6F3FD',
     alignItems: 'center',
     paddingHorizontal: '5%',
-    paddingVertical: '7%',
+    paddingVertical: '5%',
   },
   productDetailsContainer: {
     height: '35%',
@@ -113,7 +116,7 @@ const styles = StyleSheet.create({
   },
   productTitle: {
     fontSize: 16,
-    fontFamily: 'Poppins_500Medium',
+    fontFamily: 'Poppins_600SemiBold',
     color: '#19274F',
   },
   detailsNumber: {
@@ -137,7 +140,13 @@ const styles = StyleSheet.create({
   },
   description: {
     marginTop: '5%',
-    height: '65%',
+    height: '55%'
+  },
+  descriptionTitle: {
+    fontSize: 16,
+    fontFamily: 'Poppins_500Medium'
+  },
+  descriptionText: {
     backgroundColor: '#E3E7FF',
     borderRadius: 5,
     padding: '3%'

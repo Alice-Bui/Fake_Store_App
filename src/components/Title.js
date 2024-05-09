@@ -13,12 +13,13 @@ export default Title = function({text}){
 const styles = StyleSheet.create({
     titleSection: {
         width: '100%',
+        paddingTop: '5%',
         alignItems: 'center',
-        justifyContent: 'center',        
+        justifyContent: 'center',      
     },
     title: {
-        fontFamily: 'Poppins_600SemiBold',
-        fontSize: 27,
+        fontFamily: 'Poppins_700Bold',
+        fontSize: 32,
         color: '#19274F',
     }
 });

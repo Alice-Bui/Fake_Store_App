@@ -1,9 +1,38 @@
+import { useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from "@react-navigation/stack";
 import { StyleSheet, Text, View, Pressable, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
 import Title from '../components/Title';
+import { ProductList } from './ProductList';
+import { ProductDetails } from './ProductDetail';
 
+const Stack = createStackNavigator()
 const url = 'https://fakestoreapi.com/products/categories'
-export default function Home({navigation}) {
+
+export const Products = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Categories"
+        component={Categories}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Product List"
+        component={ProductList}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Product Details"
+        component={ProductDetails}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  )
+}
+const Categories = () => {
+  const navigation = useNavigation();
+  
   const [isLoading, setLoading] = useState(true)
   const [categories, displayCategories] = useState([]);
   const categoryColor = ["#575FCE", "#7E8ADC", "#F6768D", "#EE5776"];
@@ -56,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F6F3FD',
     paddingHorizontal: '5%',
-    paddingVertical: '7%',
+    paddingVertical: '5%',
   },
   categoryContainer: {
     marginVertical: '5%',

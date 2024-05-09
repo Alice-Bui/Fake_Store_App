@@ -4,14 +4,14 @@ import Title from '../components/Title';
 import Button from '../components/Button';
 
 const url = 'https://fakestoreapi.com/products/category/'
-export default function ProductList({navigation, route}) {
+export const ProductList = ({navigation, route}) => {
     const [isLoading, setLoading] = useState(true);
     
     const [category, setCategory] = useState('');
     const [products, displayProducts] = useState([]);
     
-    const categoryScreen = ()=>navigation.navigate('Category')
-    const productDetailScreen = (productID)=>navigation.navigate({name: 'Product Detail', params: {product: productID}})
+    const categoryScreen = ()=>navigation.navigate('Categories')
+    const productDetailScreen = (productID)=>navigation.navigate({name: 'Product Details', params: {product: productID}})
     
     //Listen for changes to {category} from Category Screen
     useEffect(()=> {
@@ -84,11 +84,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: '5%',
-    paddingVertical: '7%',
+    paddingVertical: '5%',
   },
   productContainer: {
     width: '100%',
-    height: '85%',
+    height: '80%',
     justifyContent: 'center'
   },
   product: {
