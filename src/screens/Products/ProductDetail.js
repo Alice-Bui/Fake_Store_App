@@ -1,15 +1,21 @@
+// src/screens/Products/ProductDetails.js
 import { StyleSheet, Text, View, Image, ActivityIndicator } from 'react-native';
-import { useEffect, useState } from 'react';
-import Title from '../components/Title';
-import Button from '../components/Button';
+import React, { useEffect, useState } from 'react';
+import Title from '../../components/Title';
+import Button from '../../components/Button';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
+import { addProductToCart } from '../../redux/cartSlice';
 
 const url = 'https://fakestoreapi.com/products/'
+
 export const ProductDetails = ({navigation, route}) => {
     const [isLoading, setLoading] = useState(true);
     
     const [product, setProduct] = useState('');
     const [productDetails, displayProductDetails] = useState('')
+
+    const dispatch = useDispatch();
     
     const productListScreen = ()=>navigation.navigate('Product List')
     
@@ -41,6 +47,11 @@ export const ProductDetails = ({navigation, route}) => {
         return () => clearTimeout(timer);
     }, [product]);
 
+    const handleAddToCart = () => {
+      console.log('Add Item')
+      dispatch(addProductToCart(productDetails));
+    };
+
     return (
         <View style={styles.container}>
             <Title text="Product Details"/>
@@ -70,7 +81,7 @@ export const ProductDetails = ({navigation, route}) => {
 
                         <View style={styles.button}>
                             <Button text="Back" name="backspace" f={productListScreen}/>
-                            <Button text="Add to Cart" name="cart-plus"/>
+                            <Button text="Add to Cart" name="cart-plus" f={handleAddToCart}/>
                         </View>
 
                         <View style={styles.description}>

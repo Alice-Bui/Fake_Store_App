@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Pressable, FlatList, Image, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
-import Title from '../components/Title';
-import Button from '../components/Button';
+import Title from '../../components/Title';
+import Button from '../../components/Button';
 
 const url = 'https://fakestoreapi.com/products/category/'
 export const ProductList = ({navigation, route}) => {
@@ -46,11 +46,11 @@ export const ProductList = ({navigation, route}) => {
     return (
         <View style={styles.container}>
             <Title text={category}/>
-                <View style = {styles.productContainer}>
-                    {isLoading ? (
-                        <ActivityIndicator size="large" color="#8497ff"/>
+            <View style = {styles.productContainer}>
+                {isLoading ? (
+                    <ActivityIndicator size="large" color="#8497ff"/>
                     ) : (
-                        <FlatList
+                    <FlatList
                         data={products}
                         renderItem={({item}) => (
                             <Pressable style={styles.product} onPress={()=>productDetailScreen(item.id)}>
@@ -66,9 +66,9 @@ export const ProductList = ({navigation, route}) => {
                             </Pressable>
                         )}
                         keyExtractor={(item) => item.id}
-                        />
-                    )}
-                </View>
+                    />
+                )}
+            </View>
             <View>
                 <Button text="Back" name="backspace" f={categoryScreen}/>
             </View>

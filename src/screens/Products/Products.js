@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from "@react-navigation/stack";
 import { StyleSheet, Text, View, Pressable, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
-import Title from '../components/Title';
+import Title from '../../components/Title';
 import { ProductList } from './ProductList';
 import { ProductDetails } from './ProductDetail';
 
