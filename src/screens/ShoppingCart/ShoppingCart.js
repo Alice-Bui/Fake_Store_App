@@ -8,11 +8,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export const ShoppingCart = () => {
     const cartProducts = useSelector(selectCartProducts);
-    let totalNum_items = cartProducts.length;
-    let totalPrice_items = cartProducts.reduce((tot, itm)=>tot+itm.price, 0)
+    let totalNum_items = cartProducts.reduce((totnum, itm)=>totnum+itm.quantity, 0);
+    let totalPrice_items = cartProducts.reduce((totprice, itm)=>totprice+itm.price, 0)
 
-    console.log(totalNum_items)
-    console.log(totalPrice_items)
+    console.log(cartProducts)
 
     return (
         <View style={styles.container}>
