@@ -19,8 +19,6 @@ export const ShoppingCart = () => {
     const totalPrice_items = cartProducts.reduce((totprice, itm)=>totprice+itm.price*itm.quantity, 0)
     const roundTotalPrice_items = Math.ceil(totalPrice_items * 100) / 100;
 
-    console.log(cartProducts)
-
     return (
         <View style={styles.container}>
             <Title text="Shopping Cart"/>

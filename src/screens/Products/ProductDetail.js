@@ -48,7 +48,6 @@ export const ProductDetails = ({navigation, route}) => {
     }, [product]);
 
     const handleAddToCart = () => {
-      console.log('Add Item')
       dispatch(addProductToCart(productDetails));
     };
 
