@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F6F3FD',
     paddingHorizontal: '5%',
-    paddingVertical: '5%',
+    paddingVertical: '8%',
   },
   categoryContainer: {
     marginVertical: '5%',

@@ -56,11 +56,9 @@ export const ProductList = ({navigation, route}) => {
                             <Pressable style={styles.product} onPress={()=>productDetailScreen(item.id)}>
                                 <Image source={{uri: item.image}} style={styles.productImage}/>
                                 <View style={styles.productText}>
-                                    <Text style={styles.productName}>
-                                        {item.title}
-                                    </Text>
-                                    <Text style={styles.productPrice}>
-                                        Price: €{item.price}
+                                    <Text style={styles.productName}>{item.title}</Text>
+                                    <Text style={styles.productPrice}>Price:
+                                        <Text style={styles.productName}> ${item.price}</Text>
                                     </Text>
                                 </View>
                             </Pressable>
@@ -84,12 +82,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: '5%',
-    paddingVertical: '5%',
+    paddingVertical: '8%',
   },
   productContainer: {
     width: '100%',
-    height: '80%',
-    justifyContent: 'center'
+    height: '77%',
+    justifyContent: 'center',
   },
   product: {
     margin: '2%',
@@ -101,7 +99,7 @@ const styles = StyleSheet.create({
     borderColor: '#19274F'
   },
   productText: {
-    width: '75%',
+    width: '72%',
     justifyContent: 'space-between',
   },
   productName: {
@@ -110,15 +108,15 @@ const styles = StyleSheet.create({
     color: '#19274F'
   },
   productPrice: {
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: 'Poppins_600SemiBold',
-    color: '#8497ff'
+    color: '#19274F'
   },
   productImage: {
     width: '23%',
     height: 85,
     resizeMode: 'contain',
     borderRadius: 10,
-    marginRight: '2%',
+    marginRight: '5%',
   }
 });

@@ -75,7 +75,7 @@ export const ProductDetails = ({navigation, route}) => {
                                 <Text style={styles.textValue}> {productDetails.rating.count}</Text>
                             </Text>
                             <Text style={styles.textKey}>Price: 
-                                <Text style={styles.textValue}> €{productDetails.price}</Text>
+                                <Text style={styles.textValue}> ${productDetails.price}</Text>
                             </Text>
                         </View>
 
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6F3FD',
     alignItems: 'center',
     paddingHorizontal: '5%',
-    paddingVertical: '5%',
+    paddingVertical: '8%',
   },
   productDetailsContainer: {
     height: '35%',
@@ -140,10 +140,11 @@ const styles = StyleSheet.create({
   },
   textKey: {
     color: '#19274F',
-    fontFamily: 'Poppins_600SemiBold'
+    fontFamily: 'Poppins_600SemiBold',
+    fontSize: 14
   },
   textValue: {
-    fontFamily: 'Poppins_500Medium'
+    fontFamily: 'Poppins_500Medium',
   },
   button: {
     flexDirection: 'row',
@@ -155,7 +156,8 @@ const styles = StyleSheet.create({
   },
   descriptionTitle: {
     fontSize: 16,
-    fontFamily: 'Poppins_500Medium'
+    fontFamily: 'Poppins_500Medium',
+    color: '#19274F'
   },
   descriptionText: {
     backgroundColor: '#E3E7FF',
@@ -164,7 +166,8 @@ const styles = StyleSheet.create({
   },
   desText: {
     fontSize: 14,
-    fontFamily: 'Poppins_400Regular'
+    fontFamily: 'Poppins_400Regular',
+    color: '#19274F'
   }
 
 });
