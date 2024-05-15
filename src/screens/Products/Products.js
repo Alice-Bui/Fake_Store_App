@@ -74,6 +74,7 @@ const Categories = () => {
                 )
             })}
           </View>
+          
         </View>
       )}
     </View>
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
   category: {
     margin: "2%",
     width: "45%",
-    height: "45%",
+    height: "50%",
     padding: 8,
     backgroundColor: "#8497FF",
     borderRadius: 6,

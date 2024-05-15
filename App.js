@@ -1,15 +1,19 @@
 /// App.js
 import React from 'react';
+import { View } from 'react-native';
 import { Provider } from 'react-redux';
-import { store } from './src/redux/store';
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Products } from "./src/screens/Products/Products";
-import { ShoppingCart } from "./src/screens/ShoppingCart/ShoppingCart";
 import { MaterialCommunityIcons } from "@expo/vector-icons"; 
 import { useFonts, Poppins_400Regular, Poppins_600SemiBold, Poppins_500Medium, Poppins_700Bold } from '@expo-google-fonts/poppins';
 
+import store from './src/redux/store';
+import CartBadge from './src/components/Badge';
+import { Products } from "./src/screens/Products/Products";
+import { ShoppingCart } from "./src/screens/ShoppingCart/ShoppingCart";
+
 const Tabs = createBottomTabNavigator();
+
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
@@ -34,11 +38,17 @@ export default function App() {
               let iconName;
               if (route.name === "Products") {
                 iconName = focused ? "home" : "home-outline"; 
+                return <MaterialCommunityIcons name={iconName} size={35} color={color} />;
               } else if (route.name === "My Cart") {
                 iconName = focused ? "cart" : "cart-outline";
+                ///Cart Badge
+                return (
+                  <View>
+                    <MaterialCommunityIcons name={iconName} size={35} color={color} />
+                    <CartBadge />
+                  </View>
+                )
               }
-
-              return <MaterialCommunityIcons name={iconName} size={35} color={color} />;
             },
           })}
         >

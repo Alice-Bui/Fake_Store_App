@@ -1,15 +1,23 @@
 // Home.js
 import React from "react";
 import { View, Text, StyleSheet, FlatList, Image, Pressable } from "react-native";
-import { useSelector } from "react-redux";
-import { selectCartProducts } from "../../redux/cartSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { selectCartProducts, increaseQuantity, decreaseQuantity } from "../../redux/cartSlice";
 import { MaterialCommunityIcons } from "@expo/vector-icons"; 
-
+import emptyCart from "./file.png"
 
 export const ShoppingCart = () => {
     const cartProducts = useSelector(selectCartProducts);
-    let totalNum_items = cartProducts.reduce((totnum, itm)=>totnum+itm.quantity, 0);
-    let totalPrice_items = cartProducts.reduce((totprice, itm)=>totprice+itm.price, 0)
+    const dispatch = useDispatch();
+    const handleIncreaseQuantity = (item) => {
+        dispatch(increaseQuantity(item))
+    };
+    const handleDecreaseQuantity = (item) => {
+        dispatch(decreaseQuantity(item))
+    };
+    const totalNum_items = cartProducts.reduce((totnum, itm)=>totnum+itm.quantity, 0);
+    const totalPrice_items = cartProducts.reduce((totprice, itm)=>totprice+itm.price*itm.quantity, 0)
+    const roundTotalPrice_items = Math.ceil(totalPrice_items * 100) / 100;
 
     console.log(cartProducts)
 
@@ -23,7 +31,7 @@ export const ShoppingCart = () => {
                         <Text style={styles.textValue}> {totalNum_items}</Text>
                     </Text>
                     <Text style={styles.textKey}>Total Price: 
-                        <Text style={styles.textValue}> ${totalPrice_items}</Text>
+                        <Text style={styles.textValue}> ${roundTotalPrice_items}</Text>
                     </Text>
                 </View>
 
@@ -41,11 +49,11 @@ export const ShoppingCart = () => {
                                         </Text>
                                     </View>
                                     <View style={styles.quantityContainer}>
-                                        <Pressable>
+                                        <Pressable onPress={() => handleDecreaseQuantity(item)}>
                                             <MaterialCommunityIcons name="minus-circle" color="#8497ff" size ={25} padding={10}/>
                                         </Pressable>
-                                        <Text style={styles.quantity}>quantity: 10</Text>
-                                        <Pressable>
+                                        <Text style={styles.quantity}>quantity: {item.quantity}</Text>
+                                        <Pressable onPress={() => handleIncreaseQuantity(item)}>
                                             <MaterialCommunityIcons name="plus-circle" color="#8497ff" size ={25} padding={10}/>
                                         </Pressable>
                                     </View>
@@ -58,7 +66,9 @@ export const ShoppingCart = () => {
             </View>) 
             : (
                 <View style={styles.content}>
+                    <Image source={require('./file.png')} style={styles.contentImage}/>
                     <Text style={styles.contentText}>Your cart is empty!</Text>
+                    <Text style={styles.contentMessage}>Looks like you haven't added anything to your cart yet</Text>
                 </View>
             )}
         </View>
@@ -76,13 +86,28 @@ const styles = StyleSheet.create({
     //When cart is empty
     content: {
         height: '90%',
+        width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
     },
     contentText: {
-        fontFamily: 'Poppins_400Regular',
+        fontFamily: 'Poppins_600SemiBold',
         fontSize: 27,
+        color: '#8497ff',
+        marginBottom: '5%'
+    },
+    contentMessage: {
+        width: '75%',
+        textAlign: 'center',
+        fontFamily: 'Poppins_500Medium',
         color: '#19274F',
+    },
+    contentImage: {
+        width: '100%',
+        height: '35%',
+        resizeMode: 'contain',
+        borderRadius: 10,
+        marginBottom: '10%',
     },
     
     //When cart has items
@@ -138,9 +163,10 @@ const styles = StyleSheet.create({
       height: 85,
       resizeMode: 'contain',
       borderRadius: 10,
-      marginRight: '5%'
+      marginRight: '5%',
     },
 
+    ///Quantity Control
     quantityContainer: {
         flexDirection: 'row',
         alignItems: 'center'
