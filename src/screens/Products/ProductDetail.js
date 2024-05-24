@@ -6,6 +6,7 @@ import Button from '../../components/Button';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import { addProductToCart } from '../../redux/cartSlice';
+import { colors } from '../../constants/screenColors';
 
 const url = 'https://fakestoreapi.com/products/'
 
@@ -56,7 +57,7 @@ export const ProductDetails = ({navigation, route}) => {
             <Title text="Product Details"/>
             {isLoading ? (
                 <View style={[{marginVertical: '100%'}]}>
-                    <ActivityIndicator size="large" color="#8497ff"/>
+                    <ActivityIndicator size="large" color={colors.highlight}/>
                 </View>
             ) : (
                 <View>
@@ -101,14 +102,14 @@ export const ProductDetails = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6F3FD',
+    backgroundColor: colors.backgroundScreen,
     alignItems: 'center',
     paddingHorizontal: '5%',
     paddingVertical: '8%',
   },
   productDetailsContainer: {
     height: '35%',
-    backgroundColor: 'white',
+    backgroundColor: colors.product,
     marginVertical: '5%',
     justifyContent: 'center',
     borderRadius: 15,
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '90%',
     resizeMode: 'contain',
-    backgroundColor: 'white',
+    backgroundColor: colors.product,
   },
   detailsText: {
     width: '100%',
@@ -127,10 +128,10 @@ const styles = StyleSheet.create({
   productTitle: {
     fontSize: 16,
     fontFamily: 'Poppins_600SemiBold',
-    color: '#19274F',
+    color: colors.text,
   },
   detailsNumber: {
-    backgroundColor: '#DFEDFF',
+    backgroundColor: colors.detailsBackground,
     borderRadius: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
     marginVertical: '5%'
   },
   textKey: {
-    color: '#19274F',
+    color: colors.text,
     fontFamily: 'Poppins_600SemiBold',
     fontSize: 14
   },
@@ -156,17 +157,17 @@ const styles = StyleSheet.create({
   descriptionTitle: {
     fontSize: 16,
     fontFamily: 'Poppins_500Medium',
-    color: '#19274F'
+    color: colors.text
   },
   descriptionText: {
-    backgroundColor: '#E3E7FF',
+    backgroundColor: colors.descriptionBackground,
     borderRadius: 5,
     padding: '3%'
   },
   desText: {
     fontSize: 14,
     fontFamily: 'Poppins_400Regular',
-    color: '#19274F'
+    color: colors.text
   }
 
 });

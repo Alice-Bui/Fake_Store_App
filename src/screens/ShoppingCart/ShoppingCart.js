@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, FlatList, Image, Pressable } from "react-native
 import { useSelector, useDispatch } from "react-redux";
 import { selectCartProducts, increaseQuantity, decreaseQuantity } from "../../redux/cartSlice";
 import { MaterialCommunityIcons } from "@expo/vector-icons"; 
-import emptyCart from "./file.png"
+import { colors } from "../../constants/screenColors";
 
 export const ShoppingCart = () => {
     const cartProducts = useSelector(selectCartProducts);
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#F6F3FD',
+        backgroundColor: colors.backgroundScreen,
         paddingHorizontal: '5%',
         paddingVertical: '8%',
     },
@@ -91,14 +91,14 @@ const styles = StyleSheet.create({
     contentText: {
         fontFamily: 'Poppins_600SemiBold',
         fontSize: 27,
-        color: '#8497ff',
+        color: colors.highlight,
         marginBottom: '5%'
     },
     contentMessage: {
         width: '75%',
         textAlign: 'center',
         fontFamily: 'Poppins_500Medium',
-        color: '#19274F',
+        color: colors.text,
     },
     contentImage: {
         width: '100%',
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     
     //When cart has items
     detailsNumber: {
-        backgroundColor: '#DFEDFF',
+        backgroundColor: colors.detailsBackground,
         borderRadius: 15,
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
         marginVertical: '5%',
     },
     textKey: {
-        color: '#19274F',
+        color: colors.text,
         fontSize: 18,
         fontFamily: 'Poppins_600SemiBold'
     },
@@ -138,9 +138,14 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flexDirection: 'row',
         alignItems: 'center',
-        borderWidth: 1,
         borderRadius: 10,
-        borderColor: '#19274F'
+        shadowColor: 'gray',
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        shadowOffset: {
+            height: 1,
+            width: 1
+        }
     },
     productText: {
       width: '72%',
@@ -149,12 +154,12 @@ const styles = StyleSheet.create({
     productName: {
       fontSize: 13,
       fontFamily: 'Poppins_400Regular',
-      color: '#19274F'
+      color: colors.text
     },
     productPrice: {
       fontSize: 13,
       fontFamily: 'Poppins_600SemiBold',
-      color: '#19274F'
+      color: colors.text
     },
     productImage: {
       width: '23%',
@@ -175,7 +180,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 14,
         fontFamily: 'Poppins_500Medium',
-        color: '#19274F',
+        color: colors.text,
     }
     
 })

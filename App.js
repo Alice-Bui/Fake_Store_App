@@ -11,6 +11,7 @@ import store from './src/redux/store';
 import CartBadge from './src/components/Badge';
 import { Products } from "./src/screens/Products/Products";
 import { ShoppingCart } from "./src/screens/ShoppingCart/ShoppingCart";
+import { UserProfile } from "./src/screens/User/UserProfile";
 
 const Tabs = createBottomTabNavigator();
 
@@ -39,7 +40,7 @@ export default function App() {
               if (route.name === "Products") {
                 iconName = focused ? "home" : "home-outline"; 
                 return <MaterialCommunityIcons name={iconName} size={35} color={color} />;
-              } else if (route.name === "My Cart") {
+              } else if (route.name === "My Cart" || route.name === "User Profile") {
                 iconName = focused ? "cart" : "cart-outline";
                 ///Cart Badge
                 return (
@@ -55,7 +56,10 @@ export default function App() {
           <Tabs.Screen 
             name="Products" 
             component={Products}/>
-          <Tabs.Screen name="My Cart" component={ShoppingCart}/>
+          <Tabs.Screen 
+            name="My Cart" 
+            component={ShoppingCart}/>
+          <Tabs.Screen name="User Profile" component={UserProfile}/>
         </Tabs.Navigator>
       </NavigationContainer>
     </Provider>

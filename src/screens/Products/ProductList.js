@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Pressable, FlatList, Image, ActivityIndicator }
 import { useEffect, useState } from 'react';
 import Title from '../../components/Title';
 import Button from '../../components/Button';
+import { colors } from '../../constants/screenColors';
 
 const url = 'https://fakestoreapi.com/products/category/'
 export const ProductList = ({navigation, route}) => {
@@ -48,12 +49,12 @@ export const ProductList = ({navigation, route}) => {
             <Title text={category}/>
             <View style = {styles.productContainer}>
                 {isLoading ? (
-                    <ActivityIndicator size="large" color="#8497ff"/>
+                    <ActivityIndicator size="large" color={colors.highlight}/>
                     ) : (
                     <FlatList
                         data={products}
                         renderItem={({item}) => (
-                            <Pressable style={styles.product} onPress={()=>productDetailScreen(item.id)}>
+                            <Pressable elevation={5} style={styles.product} onPress={()=>productDetailScreen(item.id)}>
                                 <Image source={{uri: item.image}} style={styles.productImage}/>
                                 <View style={styles.productText}>
                                     <Text style={styles.productName}>{item.title}</Text>
@@ -78,7 +79,7 @@ export const ProductList = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6F3FD',
+    backgroundColor: colors.backgroundScreen,
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: '5%',
@@ -94,9 +95,14 @@ const styles = StyleSheet.create({
     padding: '2%',
     backgroundColor: 'white',
     flexDirection: 'row',
-    borderWidth: 1,
     borderRadius: 10,
-    borderColor: '#19274F'
+    shadowColor: 'gray',
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: {
+        height: 1,
+        width: 1
+    }
   },
   productText: {
     width: '72%',
@@ -105,12 +111,12 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 13,
     fontFamily: 'Poppins_400Regular',
-    color: '#19274F'
+    color: colors.text
   },
   productPrice: {
     fontSize: 13,
     fontFamily: 'Poppins_600SemiBold',
-    color: '#19274F'
+    color: colors.text
   },
   productImage: {
     width: '23%',

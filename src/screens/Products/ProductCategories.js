@@ -2,13 +2,13 @@
 import { StyleSheet, Text, View, ActivityIndicator, Pressable } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Title from '../../components/Title';
+import { colors } from '../../constants/screenColors';
 
 const url = 'https://fakestoreapi.com/products/categories'
 
 export const ProductCategories = ({navigation}) => {
     const [isLoading, setLoading] = useState(true)
     const [categories, displayCategories] = useState([]);
-    const categoryColor = ["#575FCE", "#7E8ADC", "#F6768D", "#EE5776"];
 
     const productListScreen = (categoryName)=>navigation.navigate({name: 'Product List', params: {category: categoryName}})
 
@@ -32,16 +32,15 @@ export const ProductCategories = ({navigation}) => {
         <View style={styles.container}>
         {isLoading ? (
             <View style={[{marginVertical: '75%'}]}>
-            <ActivityIndicator size="large" color="#8497ff"/>
+            <ActivityIndicator size="large" color={colors.highlight}/>
             </View>
         ) : (<View>
             <Title text="Categories"/>
             <View style = {styles.categoryContainer}>
                 {categories.map((category, idx) => {
                     category = category.replace(/\b\w/g, (c)=>c.toUpperCase()).replace(/'\w/g, (c)=>c.toLowerCase());
-                    const color = categoryColor[idx%4]
                     return (
-                        <Pressable style={[styles.category, {backgroundColor: color}]} key={idx} onPress={()=>productListScreen(category)}>
+                        <Pressable style={styles.category} key={idx} onPress={()=>productListScreen(category)}>
                             <Text style={styles.categoryName}>{category}</Text>
                         </Pressable>
                     )
@@ -57,7 +56,7 @@ export const ProductCategories = ({navigation}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F6F3FD',
+        backgroundColor: colors.backgroundScreen,
         paddingHorizontal: '5%',
         paddingVertical: '8%',
       },
@@ -73,12 +72,19 @@ const styles = StyleSheet.create({
         width: "45%",
         height: "50%",
         padding: 8,
-        backgroundColor: "#8497FF",
+        backgroundColor: colors.product,
         borderRadius: 6,
         justifyContent: 'center',
+        shadowColor: 'gray',
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        shadowOffset: {
+            height: 1,
+            width: 1
+        }
       },
       categoryName: {
-        color: "white",
+        color: colors.text,
         fontFamily: 'Poppins_500Medium',
         fontSize: 22,
         textAlign: 'center'
