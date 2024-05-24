@@ -10,7 +10,7 @@ export const ProductList = ({navigation, route}) => {
     const [category, setCategory] = useState('');
     const [products, displayProducts] = useState([]);
     
-    const categoryScreen = ()=>navigation.navigate('Categories')
+    const productCategoriesScreen = ()=>navigation.navigate('Product Categories')
     const productDetailScreen = (productID)=>navigation.navigate({name: 'Product Details', params: {product: productID}})
     
     //Listen for changes to {category} from Category Screen
@@ -68,7 +68,7 @@ export const ProductList = ({navigation, route}) => {
                 )}
             </View>
             <View>
-                <Button text="Back" name="backspace" f={categoryScreen}/>
+                <Button text="Back" name="backspace" f={productCategoriesScreen}/>
             </View>
 
         </View>
