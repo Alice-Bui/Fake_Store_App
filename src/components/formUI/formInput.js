@@ -1,5 +1,6 @@
 import { Text, TextInput, View, StyleSheet } from "react-native";
-import { colors } from "../../constants/formColors";
+import { colors } from "../../constants/screenColors";
+
 export const FormInput = ({ label, style, config, invalid }) => {
     let inputStyles = [styles.input];
     if (config && config.multiline) {
@@ -22,23 +23,31 @@ const styles = StyleSheet.create({
     inputContainer: {
         marginHorizontal: 4,
         marginVertical: 8,
+
     },
-    label: { fontSize: 14, color: colors.primary100, marginBottom: 4 },
+    label: { 
+        fontSize: 14, 
+        color: colors.green, 
+        marginBottom: 4,
+        fontFamily: 'Poppins_500Medium'
+    },
     input: {
-        backgroundColor: colors.primary100,
-        color: colors.primary700,
+        backgroundColor: colors.lightgreen,
+        color: colors.text,
         padding: 6,
         borderRadius: 6,
-        fontSize: 18,
+        fontSize: 14,
+        fontFamily: "Poppins_400Regular"
     },
     inputMultiline: {
         minHeight: 100,
         textAlignVertical: "top",
     },
     invalidLabel: {
-        color: colors.error500,
+        color: colors.red,
     },
     invalidBackground: {
-        backgroundColor: colors.error50,
+        borderColor: colors.red,
+        borderWidth: 2
     },
 });

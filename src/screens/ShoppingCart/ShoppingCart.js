@@ -3,7 +3,7 @@ import React from "react";
 import { View, Text, StyleSheet, FlatList, Image, Pressable } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { selectCartProducts, increaseQuantity, decreaseQuantity } from "../../redux/cartSlice";
-import { MaterialCommunityIcons } from "@expo/vector-icons"; 
+import { Ionicons } from "@expo/vector-icons"; 
 import { colors } from "../../constants/screenColors";
 
 export const ShoppingCart = () => {
@@ -48,11 +48,11 @@ export const ShoppingCart = () => {
                                     </View>
                                     <View style={styles.quantityContainer}>
                                         <Pressable onPress={() => handleDecreaseQuantity(item)}>
-                                            <MaterialCommunityIcons name="minus-circle" color="#8497ff" size ={25} padding={10}/>
+                                            <Ionicons name="remove-circle" color={colors.green} size ={25} padding={10}/>
                                         </Pressable>
                                         <Text style={styles.quantity}>quantity: {item.quantity}</Text>
                                         <Pressable onPress={() => handleIncreaseQuantity(item)}>
-                                            <MaterialCommunityIcons name="plus-circle" color="#8497ff" size ={25} padding={10}/>
+                                            <Ionicons name="add-circle" color={colors.green} size ={25} padding={10}/>
                                         </Pressable>
                                     </View>
                                 </View>
@@ -64,7 +64,7 @@ export const ShoppingCart = () => {
             </View>) 
             : (
                 <View style={styles.content}>
-                    <Image source={require('./file.png')} style={styles.contentImage}/>
+                    <Ionicons name="sad" color={colors.red} size ={75}/>
                     <Text style={styles.contentText}>Your cart is empty!</Text>
                     <Text style={styles.contentMessage}>Looks like you haven't added anything to your cart yet</Text>
                 </View>
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: colors.backgroundScreen,
+        backgroundColor: colors.beige,
         paddingHorizontal: '5%',
         paddingVertical: '8%',
     },
@@ -91,8 +91,9 @@ const styles = StyleSheet.create({
     contentText: {
         fontFamily: 'Poppins_600SemiBold',
         fontSize: 27,
-        color: colors.highlight,
-        marginBottom: '5%'
+        color: colors.red,
+        marginBottom: '5%',
+        marginTop: '7.5%'
     },
     contentMessage: {
         width: '75%',
@@ -100,17 +101,10 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins_500Medium',
         color: colors.text,
     },
-    contentImage: {
-        width: '100%',
-        height: '35%',
-        resizeMode: 'contain',
-        borderRadius: 10,
-        marginBottom: '10%',
-    },
     
     //When cart has items
     detailsNumber: {
-        backgroundColor: colors.detailsBackground,
+        backgroundColor: colors.lightgreen,
         borderRadius: 15,
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -139,6 +133,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         borderRadius: 10,
+        elevation: 5,
         shadowColor: 'gray',
         shadowOpacity: 0.8,
         shadowRadius: 2,
@@ -172,7 +167,7 @@ const styles = StyleSheet.create({
     ///Quantity Control
     quantityContainer: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     quantity: {
         paddingHorizontal: 15,

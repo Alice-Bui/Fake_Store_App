@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { colors } from '../constants/screenColors';
 
 export default Title = function({text}){
   return (
@@ -13,13 +14,13 @@ export default Title = function({text}){
 const styles = StyleSheet.create({
     titleSection: {
         width: '100%',
-        paddingTop: '5%',
+        paddingTop: '10%',
         alignItems: 'center',
         justifyContent: 'center', 
     },
     title: {
         fontFamily: 'Poppins_700Bold',
         fontSize: 32,
-        color: '#19274F',
+        color: colors.text,
     }
 });

@@ -57,7 +57,7 @@ export const ProductDetails = ({navigation, route}) => {
             <Title text="Product Details"/>
             {isLoading ? (
                 <View style={[{marginVertical: '100%'}]}>
-                    <ActivityIndicator size="large" color={colors.highlight}/>
+                    <ActivityIndicator size="large" color={colors.green}/>
                 </View>
             ) : (
                 <View>
@@ -80,8 +80,8 @@ export const ProductDetails = ({navigation, route}) => {
                         </View>
 
                         <View style={styles.button}>
-                            <Button text="Back" name="backspace" f={productListScreen}/>
-                            <Button text="Add to Cart" name="cart-plus" f={handleAddToCart}/>
+                            <Button text="Back" name="backspace" color={colors.green} f={productListScreen}/>
+                            <Button text="Add to Cart" name="cart" color={colors.red} f={handleAddToCart}/>
                         </View>
 
                         <View style={styles.description}>
@@ -102,7 +102,7 @@ export const ProductDetails = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.backgroundScreen,
+    backgroundColor: "white",
     alignItems: 'center',
     paddingHorizontal: '5%',
     paddingVertical: '8%',
@@ -131,12 +131,12 @@ const styles = StyleSheet.create({
     color: colors.text,
   },
   detailsNumber: {
-    backgroundColor: colors.detailsBackground,
+    backgroundColor: colors.lightgreen,
     borderRadius: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: '3%',
-    marginVertical: '5%'
+    marginVertical: '5%',
   },
   textKey: {
     color: colors.text,
@@ -148,11 +148,11 @@ const styles = StyleSheet.create({
   },
   button: {
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-between'
   },
   description: {
     marginTop: '5%',
-    height: '55%'
+    height: '55%',
   },
   descriptionTitle: {
     fontSize: 16,
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     color: colors.text
   },
   descriptionText: {
-    backgroundColor: colors.descriptionBackground,
+    backgroundColor: colors.beige,
     borderRadius: 5,
     padding: '3%'
   },

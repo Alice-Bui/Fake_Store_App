@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { selectCartProducts} from "../redux/cartSlice";
+import { colors } from '../constants/screenColors';
 
 export default cartBadge = function(){
     const cartProducts = useSelector(selectCartProducts);
@@ -26,12 +27,12 @@ const styles = StyleSheet.create({
         right: 0
     },
     badge: {
-        backgroundColor: '#f5ba01',
+        backgroundColor: colors.pink,
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        width: 20,
-        height: 20,
+        width: 17,
+        height: 17,
     },
     count: {
         color: 'white',

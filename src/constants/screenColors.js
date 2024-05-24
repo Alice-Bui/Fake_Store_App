@@ -1,10 +1,11 @@
 // colors.js
 export const colors = {
-    highlight: "#8497ff",
-    text: "#19274F",
-    backgroundScreen: "#F6F3FD",
-
-    detailsBackground: "#DFEDFF",
-    descriptionBackground: "E3E7FF",
-    product: "white"
+    green: "#44685C",
+    text: "#353535",
+    beige: "#F5F3F4",
+    lightgreen: "#CCD8D4",
+    product: "white",
+    pink: "#D9958F",
+    tab: "white",
+    red: "#BD4648"
 }

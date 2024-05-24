@@ -49,12 +49,12 @@ export const ProductList = ({navigation, route}) => {
             <Title text={category}/>
             <View style = {styles.productContainer}>
                 {isLoading ? (
-                    <ActivityIndicator size="large" color={colors.highlight}/>
+                    <ActivityIndicator size="large" color={colors.green}/>
                     ) : (
                     <FlatList
                         data={products}
                         renderItem={({item}) => (
-                            <Pressable elevation={5} style={styles.product} onPress={()=>productDetailScreen(item.id)}>
+                            <Pressable style={styles.product} onPress={()=>productDetailScreen(item.id)}>
                                 <Image source={{uri: item.image}} style={styles.productImage}/>
                                 <View style={styles.productText}>
                                     <Text style={styles.productName}>{item.title}</Text>
@@ -69,7 +69,7 @@ export const ProductList = ({navigation, route}) => {
                 )}
             </View>
             <View>
-                <Button text="Back" name="backspace" f={productCategoriesScreen}/>
+                <Button text="Back" name="backspace" color={colors.green} f={productCategoriesScreen}/>
             </View>
 
         </View>
@@ -79,7 +79,7 @@ export const ProductList = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.backgroundScreen,
+    backgroundColor: colors.beige,
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: '5%',
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'row',
     borderRadius: 10,
+    elevation: 5,
     shadowColor: 'gray',
     shadowOpacity: 0.8,
     shadowRadius: 2,

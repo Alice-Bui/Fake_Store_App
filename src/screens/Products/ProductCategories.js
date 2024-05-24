@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ActivityIndicator, Pressable } from 'react-nati
 import React, { useEffect, useState } from 'react';
 import Title from '../../components/Title';
 import { colors } from '../../constants/screenColors';
+import { Ionicons } from "@expo/vector-icons"; 
 
 const url = 'https://fakestoreapi.com/products/categories'
 
@@ -10,6 +11,7 @@ export const ProductCategories = ({navigation}) => {
     const [isLoading, setLoading] = useState(true)
     const [categories, displayCategories] = useState([]);
 
+    const categoryIcon = ["desktop", "diamond", "barbell", "flower"]
     const productListScreen = (categoryName)=>navigation.navigate({name: 'Product List', params: {category: categoryName}})
 
     useEffect(()=>{
@@ -32,15 +34,17 @@ export const ProductCategories = ({navigation}) => {
         <View style={styles.container}>
         {isLoading ? (
             <View style={[{marginVertical: '75%'}]}>
-            <ActivityIndicator size="large" color={colors.highlight}/>
+            <ActivityIndicator size="large" color={colors.green}/>
             </View>
         ) : (<View>
             <Title text="Categories"/>
             <View style = {styles.categoryContainer}>
                 {categories.map((category, idx) => {
                     category = category.replace(/\b\w/g, (c)=>c.toUpperCase()).replace(/'\w/g, (c)=>c.toLowerCase());
+                    const icon = categoryIcon[idx%4]
                     return (
                         <Pressable style={styles.category} key={idx} onPress={()=>productListScreen(category)}>
+                            <Ionicons name={icon} color={colors.pink} size="45"/>
                             <Text style={styles.categoryName}>{category}</Text>
                         </Pressable>
                     )
@@ -56,7 +60,7 @@ export const ProductCategories = ({navigation}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.backgroundScreen,
+        backgroundColor: colors.beige,
         paddingHorizontal: '5%',
         paddingVertical: '8%',
       },
@@ -70,11 +74,13 @@ const styles = StyleSheet.create({
       category: {
         margin: "2%",
         width: "45%",
-        height: "50%",
+        height: "45%",
         padding: 8,
         backgroundColor: colors.product,
         borderRadius: 6,
         justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 5,
         shadowColor: 'gray',
         shadowOpacity: 0.8,
         shadowRadius: 2,
@@ -86,7 +92,8 @@ const styles = StyleSheet.create({
       categoryName: {
         color: colors.text,
         fontFamily: 'Poppins_500Medium',
-        fontSize: 22,
-        textAlign: 'center'
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 10
       }
 });

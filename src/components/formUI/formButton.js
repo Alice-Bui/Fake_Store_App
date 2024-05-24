@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import { colors } from "../../constants/formColors";
+import { colors } from "../../constants/screenColors";
 export const FormButton = ({ children, onPress }) => {
     return (
         <Pressable
@@ -20,19 +20,22 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         paddingVertical: 6,
         paddingHorizontal: 12,
-        backgroundColor: colors.primary500,
-        elevation: 2, // for android. shadow sections are for ios
-        shadowColor: colors.primary800,
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
+        backgroundColor: colors.green,
+        elevation: 5,
+        shadowColor: 'gray',
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        shadowOffset: {
+            height: 1,
+            width: 1
+        }
     },
     pressed: {
         opacity: 0.7,
     },
     buttonText: {
         textAlign: "center",
-        color: colors.primary50,
+        color: "white",
         fontSize: 16,
         fontWeight: "bold",
     },
