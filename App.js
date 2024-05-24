@@ -11,7 +11,7 @@ import store from './src/redux/store';
 import CartBadge from './src/components/Badge';
 import { Products } from "./src/screens/Products/Products";
 import { ShoppingCart } from "./src/screens/ShoppingCart/ShoppingCart";
-import { UserProfile } from "./src/screens/User/UserProfile";
+import { User } from "./src/screens/User/User";
 import { MyOrders } from './src/screens/MyOrders/MyOrders';
 import { colors } from './src/constants/screenColors';
 
@@ -63,7 +63,7 @@ export default function App() {
         >
           <Tabs.Screen name="Products" component={Products}/>
           <Tabs.Screen name="My Cart" component={ShoppingCart}/>
-          <Tabs.Screen name="User Profile" component={UserProfile}/>
+          <Tabs.Screen name="User Profile" component={User}/>
           <Tabs.Screen name="My Orders" component={MyOrders}/>
         </Tabs.Navigator>
       </NavigationContainer>
