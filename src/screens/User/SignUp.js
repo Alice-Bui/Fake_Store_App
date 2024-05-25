@@ -1,9 +1,11 @@
 import { View, StyleSheet, Text, Alert, Pressable } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FormInput } from "../../components/formUI/formInput";
 import { FormButton } from "../../components/formUI/formButton";
 import { Ionicons } from "@expo/vector-icons"; 
 import { colors } from "../../constants/screenColors";
+import { signUpUser } from "../../service/authService";
+
 
 const initValue = {
     name: { value: "", isValid: true },
@@ -13,7 +15,7 @@ const initValue = {
 
 export const SignUp = ({navigation}) => {
     const [input, setInput] = useState(initValue);
-    const [formIsValid, setFormIsValid] = useState(true);
+    
     const inputChangeHandler = (inputIdentifier, inputValue) =>
         setInput((curValues) => {
             return {
@@ -42,15 +44,16 @@ export const SignUp = ({navigation}) => {
                 },
             };
         });
+
         const valid = nameIsValid && emailIsValid && passwordIsValid;
-        setFormIsValid(valid);
         return valid;
     };
+
     const onClearHandler = () => {
         setInput(initValue);
-        setFormIsValid(true);
     };
-    const onSignInHandler = () => {
+
+    const onSignInHandler = async () => {
         const data = {
             name: input.name.value,
             email: input.email.value,
@@ -58,10 +61,26 @@ export const SignUp = ({navigation}) => {
         };
         if (!validateData(data)) {
             Alert.alert("Please ensure your information is correct and meets the required criteria.");
+            return;
+        }
+        
+        try {
+            const user = await signUpUser(data);
+            console.log(user)
+            if (user.status === "error") {
+                Alert.alert(user.message);
+            } else {
+                console.log("Sign up successfully");
+                profileScreen(user);
+            }
+        } catch (error) {
+            console.error("Sign up failed: ", error);
+            Alert.alert("Failed to sign up user.");
         }
     };
 
     const signInScreen = ()=>navigation.navigate('Sign In')
+    const profileScreen = (userData)=>navigation.navigate({name: 'Profile', params: {user: userData}})
 
     return (
         <View style={styles.container}>

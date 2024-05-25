@@ -1,11 +1,10 @@
 // src/screens/Products/ProductDetails.js
-import { StyleSheet, Text, View, ActivityIndicator, Pressable } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, Pressable, Platform } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Title from '../../components/Title';
 import { colors } from '../../constants/screenColors';
 import { Ionicons } from "@expo/vector-icons"; 
-
-const url = 'https://fakestoreapi.com/products/categories'
+import { fakeStoreServer } from '../../service/serverSetting';
 
 export const ProductCategories = ({navigation}) => {
     const [isLoading, setLoading] = useState(true)
@@ -16,6 +15,7 @@ export const ProductCategories = ({navigation}) => {
 
     useEffect(()=>{
         const fetchCategories = async() => {
+            const url = fakeStoreServer + "/products/categories";
             try {
                 const res= await fetch(url)
                 const data = await res.json();

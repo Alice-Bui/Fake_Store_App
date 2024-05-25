@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import Title from '../../components/Title';
 import Button from '../../components/Button';
 import { colors } from '../../constants/screenColors';
+import { fakeStoreServer } from '../../service/serverSetting';
 
-const url = 'https://fakestoreapi.com/products/category/'
 export const ProductList = ({navigation, route}) => {
     const [isLoading, setLoading] = useState(true);
     
@@ -23,6 +23,7 @@ export const ProductList = ({navigation, route}) => {
 
     useEffect(()=>{
         const fetchProducts = async()=>{
+            const url = fakeStoreServer + "/products/category/";
             try {
                 if (category != ''){
                     const categoryName = await category.toLowerCase().replaceAll(" ", "%20")

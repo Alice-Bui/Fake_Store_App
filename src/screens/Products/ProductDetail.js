@@ -7,8 +7,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import { addProductToCart } from '../../redux/cartSlice';
 import { colors } from '../../constants/screenColors';
-
-const url = 'https://fakestoreapi.com/products/'
+import { fakeStoreServer } from '../../service/serverSetting';
 
 export const ProductDetails = ({navigation, route}) => {
     const [isLoading, setLoading] = useState(true);
@@ -29,6 +28,7 @@ export const ProductDetails = ({navigation, route}) => {
 
     useEffect(()=>{
         const fetchProductDetails = async()=>{
+            const url = fakeStoreServer + "/products/";
             try {
                 if (product != ''){
                     const res= await fetch(url+product)
