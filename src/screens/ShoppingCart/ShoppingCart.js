@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, Image, Pressable, Alert } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { selectCart, selectCartProducts, increaseQuantity, decreaseQuantity } from "../../redux/cartSlice";
+import { selectCart, selectCartProducts, clearCart, increaseQuantity, decreaseQuantity } from "../../redux/cartSlice";
 import { Ionicons } from "@expo/vector-icons"; 
 import { colors } from "../../constants/colors";
+import Button from "../../components/Button";
 
 import { selectUser } from "../../redux/userSlice";
 import { updateUserCart } from "../../service/cartService";
@@ -15,26 +16,32 @@ export const ShoppingCart = () => {
     const cart = useSelector(selectCart)
     const dispatch = useDispatch();
 
-    const sendUpdateData = async() => {
-        try {
-            const result = await updateUserCart(cart, user.token);
-            if (result.status === "error") {
-                Alert.alert(result.message);
+    useEffect(()=>{
+        const sendUpdateData = async() => {
+            try {
+                const result = await updateUserCart(cart, user.token);
+                if (result.status === "error") {
+                    Alert.alert(result.message);
+                }
+            } catch (error) {
+                console.error("Send update data failed: ", error);
+                Alert.alert("Failed to update user's cart")
             }
-        } catch (error) {
-            console.error("Send update data failed: ", error);
-            Alert.alert("Failed to update user's cart")
-        }
-    }
+        };
+        sendUpdateData()
+    }, [cart])
 
     const handleIncreaseQuantity = (item) => {
         dispatch(increaseQuantity(item));
-        sendUpdateData()
     };
+
     const handleDecreaseQuantity = (item) => {
         dispatch(decreaseQuantity(item))
-        sendUpdateData()
     };
+
+    const handleCheckOut = () => {
+        dispatch(clearCart())
+    }
     const totalNum_items = cartProducts.reduce((totnum, itm)=>totnum+itm.quantity, 0);
     const totalPrice_items = cartProducts.reduce((totprice, itm)=>totprice+itm.price*itm.quantity, 0)
     const roundTotalPrice_items = Math.ceil(totalPrice_items * 100) / 100;
@@ -53,6 +60,7 @@ export const ShoppingCart = () => {
                     </Text>
                 </View>
 
+                <View style={styles.line}/>
                 <View style={styles.productContainer}>
                     <FlatList
                         data={cartProducts}
@@ -81,6 +89,11 @@ export const ShoppingCart = () => {
                         keyExtractor={(item) => item.id}
                     />
                 </View>
+                <View style={styles.line}/>
+
+                <View style={styles.checkOutContainer}>
+                    <Button text="CHECK OUT" name="wallet" color={colors.red} width={'75%'} f={handleCheckOut}/>
+                </View>
             </View>) 
             : (
                 <View style={styles.content}>
@@ -96,6 +109,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
+        justifyContent: 'space-between',
         backgroundColor: colors.beige,
         paddingHorizontal: '5%',
         paddingVertical: '8%',
@@ -142,9 +156,9 @@ const styles = StyleSheet.create({
 
     //Product List
     productContainer: {
-        height: '83%',
+        height: '70%',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     product: {
         margin: '2%',
@@ -196,6 +210,18 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: 'Poppins_500Medium',
         color: colors.text,
+    },
+
+    //Check out
+
+    line: {
+        borderWidth: 1,
+        borderColor: colors.green,
+        borderStyle: "dashed",
+    },
+    checkOutContainer: {
+        marginVertical: '8.5%',
+        alignItems: 'center'
     }
     
 })

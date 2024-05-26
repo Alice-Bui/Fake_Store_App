@@ -43,25 +43,6 @@ export const SignIn = ({navigation}) => {
     const onClearHandler = () => {
         setInput(initValue);
     };
-
-    /*const handleSignIn = (user) => {
-        dispatch(setUser(user));
-
-        const fetchCart = async() => {
-            try {
-                const result = await retrieveUserCart(user.token);
-                if (result.status === "error") {
-                    Alert.alert(result.message);
-                } else {
-                    dispatch(setCart(result.items));
-                }
-            } catch (error) {
-                console.error("Fetch cart failed: ", error);
-                Alert.alert("Failed to retrieve user's cart");
-            }
-        }
-        fetchCart();
-    }*/
     
     const onSignInHandler = async () => {
         const data = {
@@ -166,7 +147,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
-        color: colors.pink,
+        color: colors.red,
         fontFamily: "Poppins_600SemiBold",
         textAlign: 'center',
         paddingBottom: 10,

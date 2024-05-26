@@ -48,7 +48,7 @@ export const ProductCategories = ({navigation}) => {
                         key={idx} 
                         onPress={()=>productListScreen(category)}
                         >
-                            <Ionicons name={icon} color={colors.pink} size="45"/>
+                            <Ionicons name={icon} color={colors.red} size="45"/>
                             <Text style={styles.categoryName}>{category}</Text>
                         </Pressable>
                     )

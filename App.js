@@ -77,7 +77,7 @@ const AppTabs = () => {
       <Tabs.Screen name="Products" component={Products} />
       <Tabs.Screen name="My Cart" component={ShoppingCart} 
       options={{ 
-        tabBarBadge: totalNum_items > 0 ? totalNum_items : null, 
+        tabBarBadge: totalNum_items > 0 && user ? totalNum_items : null, 
         tabBarBadgeStyle: {
           backgroundColor: colors.red,
           fontFamily: 'Poppins_500Medium',

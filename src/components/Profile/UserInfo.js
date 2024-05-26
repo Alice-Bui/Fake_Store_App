@@ -10,7 +10,7 @@ export const UserInfo = ({user, onUpdateHandler, onSignOutHandler}) => {
         <View style={styles.profile}>
             <View style={styles.userInfo}>
                 <View style={styles.infoContainer}>
-                    <Ionicons name="id-card" color={colors.pink} size={40} marginRight={"7%"}/>
+                    <Ionicons name="id-card" color={colors.red} size={40} marginRight={"7%"}/>
                     <View style={styles.info}>
                     <Text style={styles.infoKey}>User Name</Text>
                     <Text style={styles.infoValue}>{user.name}</Text>
@@ -18,7 +18,7 @@ export const UserInfo = ({user, onUpdateHandler, onSignOutHandler}) => {
                 </View>
 
                 <View style={styles.infoContainer}>
-                    <Ionicons name="mail" color={colors.pink} size={40} marginRight={"7%"}/>
+                    <Ionicons name="mail" color={colors.red} size={40} marginRight={"7%"}/>
                     <View style={styles.info}>
                     <Text style={styles.infoKey}>Email</Text>
                     <Text style={styles.infoValue}>{user.email}</Text>
