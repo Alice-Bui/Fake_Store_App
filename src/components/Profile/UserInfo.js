@@ -10,7 +10,7 @@ export const UserInfo = ({user, onUpdateHandler, onSignOutHandler}) => {
         <View style={styles.profile}>
             <View style={styles.userInfo}>
                 <View style={styles.infoContainer}>
-                    <Ionicons name="id-card" color={colors.text} size={40} marginRight={"7%"}/>
+                    <Ionicons name="id-card" color={colors.pink} size={40} marginRight={"7%"}/>
                     <View style={styles.info}>
                     <Text style={styles.infoKey}>User Name</Text>
                     <Text style={styles.infoValue}>{user.name}</Text>
@@ -18,7 +18,7 @@ export const UserInfo = ({user, onUpdateHandler, onSignOutHandler}) => {
                 </View>
 
                 <View style={styles.infoContainer}>
-                    <Ionicons name="mail" color={colors.text} size={40} marginRight={"7%"}/>
+                    <Ionicons name="mail" color={colors.pink} size={40} marginRight={"7%"}/>
                     <View style={styles.info}>
                     <Text style={styles.infoKey}>Email</Text>
                     <Text style={styles.infoValue}>{user.email}</Text>
@@ -28,7 +28,7 @@ export const UserInfo = ({user, onUpdateHandler, onSignOutHandler}) => {
 
             <View style={styles.buttonContainer}>
                 <Button text="Update" name="color-wand" color={colors.green} width={170} f={onUpdateHandler}/>
-                <Button text="Sign Out" name="exit" color={colors.red} width={170} f={onSignOutHandler}/>
+                <Button text="Sign Out" name="exit" color={colors.green} width={170} f={onSignOutHandler}/>
             </View>
         </View>
     )
@@ -44,16 +44,19 @@ const styles = StyleSheet.create({
     },
     infoContainer: {
         flexDirection: 'row',
-        marginBottom: '5%'
+        marginBottom: '5%',
+        alignItems: 'center'
     },
     infoKey: {
         fontFamily: "Poppins_600SemiBold",
         fontSize: 16,
-        marginBottom: '5%'
+        marginBottom: '5%',
+        color: colors.text
     },
     infoValue: {
         fontFamily: "Poppins_400Regular",
-        fontSize: 16
+        fontSize: 16,
+        color: colors.text
     },
     buttonContainer: {
         flexDirection: 'row',

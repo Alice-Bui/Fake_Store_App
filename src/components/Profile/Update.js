@@ -68,7 +68,7 @@ export const Update = ({user, handleUpdateData, setUpdate}) => {
     };
 
     return (
-        <View style={[{width: '100%'}]}>
+        <View style={styles.formContainer}>
             <View style={styles.form}>
                 <FormInput
                     label="New User Name"
@@ -116,7 +116,8 @@ export const Update = ({user, handleUpdateData, setUpdate}) => {
 
 const styles = StyleSheet.create({
     formContainer: {
-        width: '100%'
+        width: '100%',
+        paddingHorizontal: '2%'
     },
     form: {
         backgroundColor: "white",
@@ -130,7 +131,6 @@ const styles = StyleSheet.create({
             width: 1
         },
         marginVertical: '5%',
-        marginHorizontal: '2%'
     },
     errorBack: {
         paddingHorizontal: 5
