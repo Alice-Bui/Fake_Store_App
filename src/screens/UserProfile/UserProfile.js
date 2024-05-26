@@ -1,11 +1,11 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { SignIn } from "./SignIn";
-import { SignUp } from "./SignUp";
-import { Profile } from "./Profile";
+import { SignIn } from "./stackScreens/SignIn";
+import { SignUp } from "./stackScreens/SignUp";
+import { Profile } from "./stackScreens/Profile";
 
 const Stack = createStackNavigator()
 
-export const User = () => {
+export const UserProfile = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen

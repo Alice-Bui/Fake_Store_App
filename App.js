@@ -11,9 +11,9 @@ import store from './src/redux/store';
 import CartBadge from './src/components/Badge';
 import { Products } from "./src/screens/Products/Products";
 import { ShoppingCart } from "./src/screens/ShoppingCart/ShoppingCart";
-import { User } from "./src/screens/User/User";
+import { UserProfile } from "./src/screens/UserProfile/UserProfile";
 import { MyOrders } from './src/screens/MyOrders/MyOrders';
-import { colors } from './src/constants/screenColors';
+import { colors } from './src/constants/colors';
 
 const Tabs = createBottomTabNavigator();
 
@@ -31,6 +31,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Tabs.Navigator
+          initialRouteName="User Profile"
           screenOptions={({route}) => ({
             tabBarStyle: {height: '9%', paddingBottom: 15, paddingTop: 3, backgroundColor: colors.green},
             headerShown: false,
@@ -63,8 +64,8 @@ export default function App() {
         >
           <Tabs.Screen name="Products" component={Products}/>
           <Tabs.Screen name="My Cart" component={ShoppingCart}/>
-          <Tabs.Screen name="User Profile" component={User}/>
           <Tabs.Screen name="My Orders" component={MyOrders}/>
+          <Tabs.Screen name="User Profile" component={UserProfile}/>
         </Tabs.Navigator>
       </NavigationContainer>
     </Provider>

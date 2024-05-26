@@ -1,10 +1,10 @@
 // src/screens/Products/ProductDetails.js
 import { StyleSheet, Text, View, ActivityIndicator, Pressable, Platform } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import Title from '../../components/Title';
-import { colors } from '../../constants/screenColors';
+import Title from '../../../components/Title';
+import { colors } from '../../../constants/colors';
 import { Ionicons } from "@expo/vector-icons"; 
-import { fakeStoreServer } from '../../service/serverSetting';
+import { fakeStoreServer } from '../../../service/serverSetting';
 
 export const ProductCategories = ({navigation}) => {
     const [isLoading, setLoading] = useState(true)
@@ -43,7 +43,11 @@ export const ProductCategories = ({navigation}) => {
                     category = category.replace(/\b\w/g, (c)=>c.toUpperCase()).replace(/'\w/g, (c)=>c.toLowerCase());
                     const icon = categoryIcon[idx%4]
                     return (
-                        <Pressable style={styles.category} key={idx} onPress={()=>productListScreen(category)}>
+                        <Pressable 
+                        style={({ pressed }) => [styles.category, pressed && styles.pressed]} 
+                        key={idx} 
+                        onPress={()=>productListScreen(category)}
+                        >
                             <Ionicons name={icon} color={colors.pink} size="45"/>
                             <Text style={styles.categoryName}>{category}</Text>
                         </Pressable>
@@ -95,5 +99,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10
+    },
+    pressed: {
+        backgroundColor: colors.lightgreen,
     }
 });

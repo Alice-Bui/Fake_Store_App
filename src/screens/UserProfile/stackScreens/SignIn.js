@@ -1,21 +1,23 @@
 import { View, StyleSheet, Text, Alert, Pressable } from "react-native";
-import { useState, useEffect } from "react";
-import { FormInput } from "../../components/formUI/formInput";
-import { FormButton } from "../../components/formUI/formButton";
+import { useState } from "react";
+import { FormInput } from "../../../components/FormInput";
 import { Ionicons } from "@expo/vector-icons"; 
-import { colors } from "../../constants/screenColors";
-import { signUpUser } from "../../service/authService";
+import { colors } from "../../../constants/colors";
+import { signInUser } from "../../../service/authService";
+import Button from "../../../components/Button";
 
+import { useDispatch } from "react-redux";
+import { setUser } from "../../../redux/userSlice";
 
 const initValue = {
-    name: { value: "", isValid: true },
-    email: { value: "", isValid: true },
-    password: { value: "", isValid: true },
+  email: { value: "", isValid: true },
+  password: { value: "", isValid: true },
 };
 
-export const SignUp = ({navigation}) => {
+export const SignIn = ({navigation}) => {
     const [input, setInput] = useState(initValue);
-    
+    const dispatch = useDispatch();
+
     const inputChangeHandler = (inputIdentifier, inputValue) =>
         setInput((curValues) => {
             return {
@@ -24,88 +26,55 @@ export const SignUp = ({navigation}) => {
             };
         });
 
-    const validateData = (data) => {
-        const nameIsValid = data.name.trim().length > 0;
-        const emailIsValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(data.email);
-        const passwordIsValid =/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/g.test(data.password);
-
+    const validateData = () => {
         setInput((curState) => {
             return {
-                name: { value: curState.name.value, isValid: nameIsValid },
-                email: { value: curState.email.value, isValid: emailIsValid },
+                email: { value: curState.email.value, isValid: false },
                 password: {
                     value: curState.password.value,
-                    isValid: passwordIsValid,
+                    isValid: false,
                 },
             };
         });
-
-        // Count the number of invalid fields
-        const invalidCount = [nameIsValid, emailIsValid, passwordIsValid].filter(isValid => !isValid).length;
-
-        // If at least two fields are invalid, valid is false
-        const valid = invalidCount < 2;
-        return valid;
     };
 
     const onClearHandler = () => {
         setInput(initValue);
     };
-
-    const onSignUpHandler = async () => {
+    
+    const onSignInHandler = async () => {
         const data = {
-            name: input.name.value,
             email: input.email.value,
             password: input.password.value,
         };
 
-        //show alert for >= 2 invalid attributes
-        if (!validateData(data)) {
-            Alert.alert("Invalid entries detected.");
-            return;
-        };
-
         try {
-            const user = await signUpUser(data);
+            const user = await signInUser(data);
+            console.log(user)
             if (user.status === "error") {
-                Alert.alert(user.message); //show alert for only 1 invalid attribute
+                validateData()
+                Alert.alert(user.message);
             } else {
+                dispatch(setUser(user));
                 onClearHandler();
                 profileScreen(user);
             }
         } catch (error) {
-            console.error("Sign up failed: ", error);
-            Alert.alert("Failed to sign up.");
+            console.error("Sign in failed: ", error);
+            Alert.alert("Failed to sign in.");
         }
     };
 
-    const signInScreen = ()=>navigation.navigate('Sign In')
-    const profileScreen = (userData)=>navigation.navigate({name: 'Profile', params: {user: userData}})
+    const signUpScreen = ()=>navigation.navigate('Sign Up')
+    const profileScreen = ()=>navigation.navigate('Profile')
 
     return (
         <View style={styles.container}>
             <Ionicons name="storefront" color={colors.green} size ={75} paddingBottom={'10%'}/>
             <View style={styles.form}>
-                <Text style={styles.title}>Hello</Text>
-                <Text style={styles.subtitle}>Sign up now to get started with an account</Text>
-
-                <FormInput
-                    label="Name"
-                    invalid={!input.name.isValid}
-                    config={{
-                        value: input.name.value,
-                        onChangeText: inputChangeHandler.bind(null, "name"),
-                        maxLength: 100,
-                    }}
-                />
-                {!input.name.isValid && (
-                    <View style={styles.errorBack}>
-                        <Text style={styles.errorText}>
-                            Please enter your name.
-                        </Text>
-                    </View>
-                )}
-
+                <Text style={styles.title}>Welcome to Fake Store</Text>
+                <Text style={styles.subtitle}>Please sign in with your Email and Password</Text>
+                
                 <FormInput
                     label="Email"
                     invalid={!input.email.isValid}
@@ -116,12 +85,9 @@ export const SignUp = ({navigation}) => {
                     }}
                 />
                 {!input.email.isValid && (
-                    <View style={styles.errorBack}>
-                        <Text style={styles.errorText}>
-                            Please enter a valid email address.
-                        </Text>
-                    </View>
+                    <View style={styles.errorBack}/>
                 )}
+
 
                 <FormInput
                     label="Password"
@@ -133,21 +99,17 @@ export const SignUp = ({navigation}) => {
                     }}
                 />
                 {!input.password.isValid && (
-                    <View style={styles.errorBack}>
-                        <Text style={styles.errorText}>
-                            Please enter a password that meets the required standards.
-                        </Text>
-                    </View>
+                    <View style={styles.errorBack}/>
                 )}
                 
                 <View style={styles.buttonPanel}>
-                    <FormButton onPress={onClearHandler}>Clear</FormButton>
-                    <FormButton onPress={onSignUpHandler}>Sign Up</FormButton>
+                    <Button text="Clear" name="remove" color={colors.green} width={120} f={onClearHandler}/>
+                    <Button text="Sign In" name="eye" color={colors.green} width={120} f={onSignInHandler}/>
                 </View>
                 <View style={styles.switchFormContainer}>
-                    <Text style={styles.label}>Already have an account?</Text>
-                    <Pressable onPress={()=>signInScreen()}>
-                        <Text style={styles.swithForm}> Sign In</Text>
+                    <Text style={styles.label}>Don't have an account?</Text>
+                    <Pressable onPress={()=>signUpScreen()}>
+                        <Text style={styles.switchForm}> Sign Up</Text>
                     </Pressable>
                 </View>
             </View>
@@ -181,11 +143,11 @@ const styles = StyleSheet.create({
         }
     },
     title: {
-        fontSize: 30,
-        color: colors.text,
+        fontSize: 20,
+        color: colors.pink,
         fontFamily: "Poppins_600SemiBold",
         textAlign: 'center',
-        paddingBottom: 5,
+        paddingBottom: 10,
     },
     subtitle: {
         fontSize: 14,
@@ -218,7 +180,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins_400Regular',
         paddingVertical: 5
     },
-    swithForm: {
+    switchForm: {
         fontSize: 14, 
         color: colors.green, 
         fontFamily: 'Poppins_600SemiBold',

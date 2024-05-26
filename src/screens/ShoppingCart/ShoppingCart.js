@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, FlatList, Image, Pressable } from "react-native
 import { useSelector, useDispatch } from "react-redux";
 import { selectCartProducts, increaseQuantity, decreaseQuantity } from "../../redux/cartSlice";
 import { Ionicons } from "@expo/vector-icons"; 
-import { colors } from "../../constants/screenColors";
+import { colors } from "../../constants/colors";
 
 export const ShoppingCart = () => {
     const cartProducts = useSelector(selectCartProducts);
@@ -18,7 +18,7 @@ export const ShoppingCart = () => {
     const totalNum_items = cartProducts.reduce((totnum, itm)=>totnum+itm.quantity, 0);
     const totalPrice_items = cartProducts.reduce((totprice, itm)=>totprice+itm.price*itm.quantity, 0)
     const roundTotalPrice_items = Math.ceil(totalPrice_items * 100) / 100;
-
+    
     return (
         <View style={styles.container}>
             <Title text="Shopping Cart"/>

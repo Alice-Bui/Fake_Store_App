@@ -1,13 +1,13 @@
 // src/screens/Products/ProductDetails.js
 import { StyleSheet, Text, View, Image, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import Title from '../../components/Title';
-import Button from '../../components/Button';
+import Title from '../../../components/Title';
+import Button from '../../../components/Button';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
-import { addProductToCart } from '../../redux/cartSlice';
-import { colors } from '../../constants/screenColors';
-import { fakeStoreServer } from '../../service/serverSetting';
+import { addProductToCart } from '../../../redux/cartSlice';
+import { colors } from '../../../constants/colors';
+import { fakeStoreServer } from '../../../service/serverSetting';
 
 export const ProductDetails = ({navigation, route}) => {
     const [isLoading, setLoading] = useState(true);
@@ -80,8 +80,8 @@ export const ProductDetails = ({navigation, route}) => {
                         </View>
 
                         <View style={styles.button}>
-                            <Button text="Back" name="backspace" color={colors.green} f={productListScreen}/>
-                            <Button text="Add to Cart" name="cart" color={colors.red} f={handleAddToCart}/>
+                            <Button text="Back" name="backspace" color={colors.green} width={170} f={productListScreen}/>
+                            <Button text="Add to Cart" name="cart" color={colors.red} width={170} f={handleAddToCart}/>
                         </View>
 
                         <View style={styles.description}>

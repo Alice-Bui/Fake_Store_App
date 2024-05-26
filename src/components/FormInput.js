@@ -1,5 +1,5 @@
 import { Text, TextInput, View, StyleSheet } from "react-native";
-import { colors } from "../../constants/screenColors";
+import { colors } from "../constants/colors";
 
 export const FormInput = ({ label, style, config, invalid }) => {
     let inputStyles = [styles.input];

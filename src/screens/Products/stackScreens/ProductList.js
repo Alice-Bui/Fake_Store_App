@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View, Pressable, FlatList, Image, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
-import Title from '../../components/Title';
-import Button from '../../components/Button';
-import { colors } from '../../constants/screenColors';
-import { fakeStoreServer } from '../../service/serverSetting';
+import Title from '../../../components/Title';
+import Button from '../../../components/Button';
+import { colors } from '../../../constants/colors';
+import { fakeStoreServer } from '../../../service/serverSetting';
 
 export const ProductList = ({navigation, route}) => {
     const [isLoading, setLoading] = useState(true);
@@ -55,7 +55,10 @@ export const ProductList = ({navigation, route}) => {
                     <FlatList
                         data={products}
                         renderItem={({item}) => (
-                            <Pressable style={styles.product} onPress={()=>productDetailScreen(item.id)}>
+                            <Pressable 
+                            style={({ pressed }) => [styles.product, pressed && styles.pressed]} 
+                            onPress={()=>productDetailScreen(item.id)}
+                            >
                                 <Image source={{uri: item.image}} style={styles.productImage}/>
                                 <View style={styles.productText}>
                                     <Text style={styles.productName}>{item.title}</Text>
@@ -70,7 +73,7 @@ export const ProductList = ({navigation, route}) => {
                 )}
             </View>
             <View>
-                <Button text="Back" name="backspace" color={colors.green} f={productCategoriesScreen}/>
+                <Button text="Back" name="backspace" color={colors.green} f={productCategoriesScreen} width={170}/>
             </View>
 
         </View>
@@ -126,5 +129,8 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     borderRadius: 10,
     marginRight: '5%',
+  },
+  pressed: {
+    backgroundColor: colors.lightgreen,
   }
 });

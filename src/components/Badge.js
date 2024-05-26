@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { selectCartProducts} from "../redux/cartSlice";
-import { colors } from '../constants/screenColors';
+import { colors } from '../constants/colors';
 
 export default cartBadge = function(){
     const cartProducts = useSelector(selectCartProducts);

@@ -1,12 +1,13 @@
+//Update.js
+
 import { View, StyleSheet, Text, Alert, Pressable } from "react-native";
 import { useState } from "react";
-import { FormInput } from "../../components/formUI/formInput";
-import { Ionicons } from "@expo/vector-icons"; 
-import { colors } from "../../constants/screenColors";
-import Button from "../../components/Button";
+import { FormInput } from "../FormInput";
+import { colors } from "../../constants/colors";
+import Button from "../Button";
 import { updateUserProfile } from "../../service/authService";
 
-export const Update = ({user, setUpdate, setUser}) => {
+export const Update = ({user, handleUpdateData, setUpdate}) => {
     const initValue = {
       name: { value: user.name, isValid: true },
       password: { value: "", isValid: true},
@@ -54,15 +55,11 @@ export const Update = ({user, setUpdate, setUser}) => {
             const result = await updateUserProfile(data);
             if (result.status === "error") {
                 Alert.alert(result.message);
+                console.log(user)
             } else {
                 Alert.alert(result.message);
-                setUser((curValues) => {
-                    return {
-                        ...curValues,
-                        name: result.name
-                    };
-                });
-                finishUpdate()
+                handleUpdateData(result.name);
+                finishUpdate();
             }
         } catch (error) {
             console.error("Update failed: ", error);
@@ -110,8 +107,8 @@ export const Update = ({user, setUpdate, setUser}) => {
             </View>
             
             <View style={styles.buttonContainer}>
-                <Button text="Confirm" name="checkmark" color={colors.green} f={onConfirmHandler}/>
-                <Button text="Cancel" name="close" color={colors.green} f={finishUpdate}/>
+                <Button text="Confirm" name="checkmark" color={colors.green} width={170} f={onConfirmHandler}/>
+                <Button text="Cancel" name="close" color={colors.green} width={170} f={finishUpdate}/>
             </View>
         </View>
     )

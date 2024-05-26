@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { colors } from '../constants/screenColors';
+import { colors } from '../constants/colors';
 
 export default Title = function({text}){
   return (

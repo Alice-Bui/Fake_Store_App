@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, FlatList, Image, Pressable } from "react-native
 import { useSelector, useDispatch } from "react-redux";
 import { selectCartProducts, increaseQuantity, decreaseQuantity } from "../../redux/cartSlice";
 import { Ionicons } from "@expo/vector-icons"; 
-import { colors } from "../../constants/screenColors";
+import { colors } from "../../constants/colors";
 
 export const MyOrders = () => {
     const cartProducts = useSelector(selectCartProducts);
