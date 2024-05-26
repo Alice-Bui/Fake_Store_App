@@ -21,7 +21,7 @@ export const User = () => {
       <Stack.Screen
         name="Profile"
         component={Profile}
-        options={{ headerShown: true }}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   )

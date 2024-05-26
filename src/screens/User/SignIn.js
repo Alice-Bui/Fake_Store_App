@@ -4,6 +4,8 @@ import { FormInput } from "../../components/formUI/formInput";
 import { FormButton } from "../../components/formUI/formButton";
 import { Ionicons } from "@expo/vector-icons"; 
 import { colors } from "../../constants/screenColors";
+import { signInUser } from "../../service/authService";
+import Button from "../../components/Button";
 
 const initValue = {
   email: { value: "", isValid: true },
@@ -12,7 +14,6 @@ const initValue = {
 
 export const SignIn = ({navigation}) => {
     const [input, setInput] = useState(initValue);
-    const [formIsValid, setFormIsValid] = useState(true);
     const inputChangeHandler = (inputIdentifier, inputValue) =>
         setInput((curValues) => {
             return {
@@ -21,44 +22,45 @@ export const SignIn = ({navigation}) => {
             };
         });
 
-    const validateData = (data) => {
-        const validEmailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-        const emailIsValid = validEmailRegex.test(data.email);
-        const passwordIsValid = data.password.trim().length > 8 &&
-                                /[A-Z]/.test(data.password) &&
-                                /[a-z]/.test(data.password) &&
-                                /\d/.test(data.password) &&
-                                /[!@#$%^&*(),.?":{}|<>]/.test(data.password);
-
+    const validateData = () => {
         setInput((curState) => {
             return {
-                email: { value: curState.email.value, isValid: emailIsValid },
+                email: { value: curState.email.value, isValid: false },
                 password: {
                     value: curState.password.value,
-                    isValid: passwordIsValid,
+                    isValid: false,
                 },
             };
         });
-        const valid = emailIsValid && passwordIsValid;
-        setFormIsValid(valid);
-        return valid;
     };
+
     const onClearHandler = () => {
         setInput(initValue);
-        setFormIsValid(true);
     };
     
-    const onSignInHandler = () => {
+    const onSignInHandler = async () => {
         const data = {
             email: input.email.value,
             password: input.password.value,
         };
-        if (!validateData(data)) {
-            Alert.alert("Wrong email or password");
+
+        try {
+            const user = await signInUser(data);
+            if (user.status === "error") {
+                validateData()
+                Alert.alert(user.message);
+            } else {
+                onClearHandler()
+                profileScreen(user);
+            }
+        } catch (error) {
+            console.error("Sign in failed: ", error);
+            Alert.alert("Failed to sign in.");
         }
     };
 
     const signUpScreen = ()=>navigation.navigate('Sign Up')
+    const profileScreen = (userData)=>navigation.navigate({name: 'Profile', params: {user: userData}})
 
     return (
         <View style={styles.container}>
@@ -71,12 +73,16 @@ export const SignIn = ({navigation}) => {
                     label="Email"
                     invalid={!input.email.isValid}
                     config={{
-                        placeholder: "abc@gmail.com",
                         value: input.email.value,
                         onChangeText: inputChangeHandler.bind(null, "email"),
                         maxLength: 100,
                     }}
                 />
+                {!input.email.isValid && (
+                    <View style={styles.errorBack}/>
+                )}
+
+
                 <FormInput
                     label="Password"
                     invalid={!input.password.isValid}
@@ -86,6 +92,9 @@ export const SignIn = ({navigation}) => {
                         secureTextEntry: true
                     }}
                 />
+                {!input.password.isValid && (
+                    <View style={styles.errorBack}/>
+                )}
                 
                 <View style={styles.buttonPanel}>
                     <FormButton onPress={onClearHandler}>Clear</FormButton>
@@ -94,7 +103,7 @@ export const SignIn = ({navigation}) => {
                 <View style={styles.switchFormContainer}>
                     <Text style={styles.label}>Don't have an account?</Text>
                     <Pressable onPress={()=>signUpScreen()}>
-                        <Text style={styles.swithForm}> Sign Up</Text>
+                        <Text style={styles.switchForm}> Sign Up</Text>
                     </Pressable>
                 </View>
             </View>
@@ -109,14 +118,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: colors.beige,
-        paddingHorizontal: '7%',
+        paddingHorizontal: '8%',
         paddingVertical: '8%',
     },
     form: {
         width: '100%',
         justifyContent: 'center',
         backgroundColor: "white",
-        padding: 5,
+        padding: 10,
         margin: '2%',
         borderRadius: 6,
         shadowColor: 'gray',
@@ -141,21 +150,19 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingBottom: 5,
     },
+    
     buttonPanel: {
         flexDirection: "row",
         justifyContent: "space-around",
-        marginVertical: 10,
-    },
-    halfInput: {
-        flex: 1,
+        marginTop: 15,
+        marginBottom: 10
     },
     errorBack: {
-        padding: 5,
+        paddingHorizontal: 5
     },
     errorText: {
         color: colors.red,
         fontSize: 14,
-        textAlign: "center",
     },
     switchFormContainer: {
         flexDirection: 'row',
@@ -165,12 +172,12 @@ const styles = StyleSheet.create({
         fontSize: 14, 
         color: colors.text, 
         fontFamily: 'Poppins_400Regular',
-        paddingVertical: 10,
+        paddingVertical: 5
     },
-    swithForm: {
+    switchForm: {
         fontSize: 14, 
         color: colors.green, 
         fontFamily: 'Poppins_600SemiBold',
-        paddingVertical: 10, 
+        paddingVertical: 5
     }
 });

@@ -63,16 +63,16 @@ const styles = StyleSheet.create({
         backgroundColor: colors.beige,
         paddingHorizontal: '5%',
         paddingVertical: '8%',
-      },
-      categoryContainer: {
+    },
+    categoryContainer: {
         marginVertical: '5%',
         width: "100%",
         flexWrap: 'wrap',
         flexDirection: 'row',
-        justifyContent: 'center'
-      },
-      category: {
-        margin: "2%",
+        justifyContent: 'space-between'
+    },
+    category: {
+        margin: "2.5%",
         width: "45%",
         height: "45%",
         padding: 8,
@@ -88,12 +88,12 @@ const styles = StyleSheet.create({
             height: 1,
             width: 1
         }
-      },
-      categoryName: {
+    },
+    categoryName: {
         color: colors.text,
         fontFamily: 'Poppins_500Medium',
         fontSize: 20,
         textAlign: 'center',
         margin: 10
-      }
+    }
 });

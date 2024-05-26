@@ -26,13 +26,8 @@ export const SignUp = ({navigation}) => {
 
     const validateData = (data) => {
         const nameIsValid = data.name.trim().length > 0;
-        const validEmailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-        const emailIsValid = validEmailRegex.test(data.email);
-        const passwordIsValid = data.password.trim().length > 8 &&
-                                /[A-Z]/.test(data.password) &&
-                                /[a-z]/.test(data.password) &&
-                                /\d/.test(data.password) &&
-                                /[!@#$%^&*(),.?":{}|<>]/.test(data.password);
+        const emailIsValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(data.email);
+        const passwordIsValid =/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/g.test(data.password);
 
         setInput((curState) => {
             return {
@@ -45,7 +40,11 @@ export const SignUp = ({navigation}) => {
             };
         });
 
-        const valid = nameIsValid && emailIsValid && passwordIsValid;
+        // Count the number of invalid fields
+        const invalidCount = [nameIsValid, emailIsValid, passwordIsValid].filter(isValid => !isValid).length;
+
+        // If at least two fields are invalid, valid is false
+        const valid = invalidCount < 2;
         return valid;
     };
 
@@ -53,29 +52,30 @@ export const SignUp = ({navigation}) => {
         setInput(initValue);
     };
 
-    const onSignInHandler = async () => {
+    const onSignUpHandler = async () => {
         const data = {
             name: input.name.value,
             email: input.email.value,
             password: input.password.value,
         };
+
+        //show alert for >= 2 invalid attributes
         if (!validateData(data)) {
-            Alert.alert("Please ensure your information is correct and meets the required criteria.");
+            Alert.alert("Invalid entries detected.");
             return;
-        }
-        
+        };
+
         try {
             const user = await signUpUser(data);
-            console.log(user)
             if (user.status === "error") {
-                Alert.alert(user.message);
+                Alert.alert(user.message); //show alert for only 1 invalid attribute
             } else {
-                console.log("Sign up successfully");
+                onClearHandler();
                 profileScreen(user);
             }
         } catch (error) {
             console.error("Sign up failed: ", error);
-            Alert.alert("Failed to sign up user.");
+            Alert.alert("Failed to sign up.");
         }
     };
 
@@ -135,15 +135,14 @@ export const SignUp = ({navigation}) => {
                 {!input.password.isValid && (
                     <View style={styles.errorBack}>
                         <Text style={styles.errorText}>
-                            Password must be at least 8 characters long and contain at least one uppercase letter, 
-                            one lowercase letter, one digit, and one special character.
+                            Please enter a password that meets the required standards.
                         </Text>
                     </View>
                 )}
                 
                 <View style={styles.buttonPanel}>
                     <FormButton onPress={onClearHandler}>Clear</FormButton>
-                    <FormButton onPress={onSignInHandler}>Sign Up</FormButton>
+                    <FormButton onPress={onSignUpHandler}>Sign Up</FormButton>
                 </View>
                 <View style={styles.switchFormContainer}>
                     <Text style={styles.label}>Already have an account?</Text>
@@ -163,14 +162,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: colors.beige,
-        paddingHorizontal: '5%',
+        paddingHorizontal: '8%',
         paddingVertical: '8%',
     },
     form: {
         width: '100%',
         justifyContent: 'center',
         backgroundColor: "white",
-        padding: 5,
+        padding: 10,
         margin: '2%',
         borderRadius: 6,
         shadowColor: 'gray',
@@ -217,14 +216,12 @@ const styles = StyleSheet.create({
         fontSize: 14, 
         color: colors.text, 
         fontFamily: 'Poppins_400Regular',
-        paddingTop: 5,
-        paddingBottom: 10
+        paddingVertical: 5
     },
     swithForm: {
         fontSize: 14, 
         color: colors.green, 
         fontFamily: 'Poppins_600SemiBold',
-        paddingTop: 5,
-        paddingBottom: 10 
+        paddingVertical: 5
     }
 });
