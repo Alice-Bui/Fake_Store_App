@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Title from '../../../components/Title';
 import Button from '../../../components/Button';
 import { ScrollView } from 'react-native-gesture-handler';
+
 import { useDispatch } from 'react-redux';
 import { addProductToCart } from '../../../redux/cartSlice';
 import { colors } from '../../../constants/colors';

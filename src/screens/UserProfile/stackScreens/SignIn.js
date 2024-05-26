@@ -1,3 +1,5 @@
+// SignIn.js
+
 import { View, StyleSheet, Text, Alert, Pressable } from "react-native";
 import { useState } from "react";
 import { FormInput } from "../../../components/FormInput";
@@ -7,7 +9,7 @@ import { signInUser } from "../../../service/authService";
 import Button from "../../../components/Button";
 
 import { useDispatch } from "react-redux";
-import { setUser } from "../../../redux/userSlice";
+import { handleSignIn } from "../../../service/handleSignIn";
 
 const initValue = {
   email: { value: "", isValid: true },
@@ -41,6 +43,25 @@ export const SignIn = ({navigation}) => {
     const onClearHandler = () => {
         setInput(initValue);
     };
+
+    /*const handleSignIn = (user) => {
+        dispatch(setUser(user));
+
+        const fetchCart = async() => {
+            try {
+                const result = await retrieveUserCart(user.token);
+                if (result.status === "error") {
+                    Alert.alert(result.message);
+                } else {
+                    dispatch(setCart(result.items));
+                }
+            } catch (error) {
+                console.error("Fetch cart failed: ", error);
+                Alert.alert("Failed to retrieve user's cart");
+            }
+        }
+        fetchCart();
+    }*/
     
     const onSignInHandler = async () => {
         const data = {
@@ -55,15 +76,16 @@ export const SignIn = ({navigation}) => {
                 validateData()
                 Alert.alert(user.message);
             } else {
-                dispatch(setUser(user));
+                handleSignIn(user, dispatch)
                 onClearHandler();
-                profileScreen(user);
+                profileScreen();
             }
         } catch (error) {
             console.error("Sign in failed: ", error);
             Alert.alert("Failed to sign in.");
         }
     };
+
 
     const signUpScreen = ()=>navigation.navigate('Sign Up')
     const profileScreen = ()=>navigation.navigate('Profile')

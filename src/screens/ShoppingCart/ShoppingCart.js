@@ -1,19 +1,39 @@
 // Home.js
-import React from "react";
-import { View, Text, StyleSheet, FlatList, Image, Pressable } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, FlatList, Image, Pressable, Alert } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { selectCartProducts, increaseQuantity, decreaseQuantity } from "../../redux/cartSlice";
+import { selectCart, selectCartProducts, increaseQuantity, decreaseQuantity } from "../../redux/cartSlice";
 import { Ionicons } from "@expo/vector-icons"; 
 import { colors } from "../../constants/colors";
 
+import { selectUser } from "../../redux/userSlice";
+import { updateUserCart } from "../../service/cartService";
+
 export const ShoppingCart = () => {
+    const user = useSelector(selectUser);
     const cartProducts = useSelector(selectCartProducts);
+    const cart = useSelector(selectCart)
     const dispatch = useDispatch();
+
+    const sendUpdateData = async() => {
+        try {
+            const result = await updateUserCart(cart, user.token);
+            if (result.status === "error") {
+                Alert.alert(result.message);
+            }
+        } catch (error) {
+            console.error("Send update data failed: ", error);
+            Alert.alert("Failed to update user's cart")
+        }
+    }
+
     const handleIncreaseQuantity = (item) => {
-        dispatch(increaseQuantity(item))
+        dispatch(increaseQuantity(item));
+        sendUpdateData()
     };
     const handleDecreaseQuantity = (item) => {
         dispatch(decreaseQuantity(item))
+        sendUpdateData()
     };
     const totalNum_items = cartProducts.reduce((totnum, itm)=>totnum+itm.quantity, 0);
     const totalPrice_items = cartProducts.reduce((totprice, itm)=>totprice+itm.price*itm.quantity, 0)

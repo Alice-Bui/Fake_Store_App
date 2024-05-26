@@ -1,10 +1,15 @@
+//SignUp.js
+
 import { View, StyleSheet, Text, Alert, Pressable } from "react-native";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FormInput } from "../../../components/FormInput";
 import { Ionicons } from "@expo/vector-icons"; 
 import { colors } from "../../../constants/colors";
 import { signUpUser } from "../../../service/authService";
 import Button from "../../../components/Button";
+
+import { useDispatch } from "react-redux";
+import { handleSignIn } from "../../../service/handleSignIn";
 
 const initValue = {
     name: { value: "", isValid: true },
@@ -14,6 +19,7 @@ const initValue = {
 
 export const SignUp = ({navigation}) => {
     const [input, setInput] = useState(initValue);
+    const dispatch = useDispatch();
     
     const inputChangeHandler = (inputIdentifier, inputValue) =>
         setInput((curValues) => {
@@ -69,8 +75,9 @@ export const SignUp = ({navigation}) => {
             if (user.status === "error") {
                 Alert.alert(user.message); //show alert for only 1 invalid attribute
             } else {
+                handleSignIn(user, dispatch)
                 onClearHandler();
-                profileScreen(user);
+                profileScreen();
             }
         } catch (error) {
             console.error("Sign up failed: ", error);
@@ -79,7 +86,7 @@ export const SignUp = ({navigation}) => {
     };
 
     const signInScreen = ()=>navigation.navigate('Sign In')
-    const profileScreen = (userData)=>navigation.navigate({name: 'Profile', params: {user: userData}})
+    const profileScreen = ()=>navigation.navigate('Profile')
 
     return (
         <View style={styles.container}>

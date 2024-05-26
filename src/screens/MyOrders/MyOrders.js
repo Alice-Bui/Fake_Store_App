@@ -7,67 +7,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { colors } from "../../constants/colors";
 
 export const MyOrders = () => {
-    const cartProducts = useSelector(selectCartProducts);
-    const dispatch = useDispatch();
-    const handleIncreaseQuantity = (item) => {
-        dispatch(increaseQuantity(item))
-    };
-    const handleDecreaseQuantity = (item) => {
-        dispatch(decreaseQuantity(item))
-    };
-    const totalNum_items = cartProducts.reduce((totnum, itm)=>totnum+itm.quantity, 0);
-    const totalPrice_items = cartProducts.reduce((totprice, itm)=>totprice+itm.price*itm.quantity, 0)
-    const roundTotalPrice_items = Math.ceil(totalPrice_items * 100) / 100;
-
+    
     return (
         <View style={styles.container}>
             <Title text="Shopping Cart"/>
-            {totalNum_items > 0 ? (
-            <View>
-                <View style={styles.detailsNumber}>
-                    <Text style={styles.textKey}>Items: 
-                        <Text style={styles.textValue}> {totalNum_items}</Text>
-                    </Text>
-                    <Text style={styles.textKey}>Total Price: 
-                        <Text style={styles.textValue}> ${roundTotalPrice_items}</Text>
-                    </Text>
-                </View>
-
-                <View style={styles.productContainer}>
-                    <FlatList
-                        data={cartProducts}
-                        renderItem={({ item }) => (
-                            <View style={styles.product}>
-                                <Image source={{uri: item.image}} style={styles.productImage}/>
-                                <View style={styles.productText}>
-                                    <View>
-                                        <Text style={styles.productName}>{item.title}</Text>
-                                        <Text style={styles.productPrice}>Price:
-                                            <Text style={styles.productName}> ${item.price}</Text>
-                                        </Text>
-                                    </View>
-                                    <View style={styles.quantityContainer}>
-                                        <Pressable onPress={() => handleDecreaseQuantity(item)}>
-                                            <Ionicons name="remove-circle" color={colors.highlight} size ={25} padding={10}/>
-                                        </Pressable>
-                                        <Text style={styles.quantity}>quantity: {item.quantity}</Text>
-                                        <Pressable onPress={() => handleIncreaseQuantity(item)}>
-                                            <Ionicons name="add-circle" color={colors.highlight} size ={25} padding={10}/>
-                                        </Pressable>
-                                    </View>
-                                </View>
-                            </View>
-                        )}
-                        keyExtractor={(item) => item.id}
-                    />
-                </View>
-            </View>) 
-            : (
-                <View style={styles.content}>
-                    <Text style={styles.contentText}>Your cart is empty!</Text>
-                    <Text style={styles.contentMessage}>Looks like you haven't added anything to your cart yet</Text>
-                </View>
-            )}
+            
         </View>
     );
 };

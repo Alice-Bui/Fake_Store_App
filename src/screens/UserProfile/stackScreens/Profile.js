@@ -7,6 +7,7 @@ import Title from "../../../components/Title";
 import { colors } from "../../../constants/colors";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser, updateUser, clearUser } from "../../../redux/userSlice";
+import { clearCart } from "../../../redux/cartSlice";
 
 // 2 main components for Profile screen
 import { Update } from "../../../components/Profile/Update";
@@ -28,8 +29,8 @@ export const Profile = ({navigation}) => {
     };
 
     const onSignOutHandler = () => {
+        dispatch(clearCart());
         dispatch(clearUser());
-        navigation.navigate("Sign In");
     }
 
     return (
