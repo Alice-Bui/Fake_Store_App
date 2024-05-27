@@ -9,7 +9,7 @@ import { signInUser } from "../../../service/authService";
 import Button from "../../../components/Button";
 
 import { useDispatch } from "react-redux";
-import { handleSignIn } from "../../../service/handleSignIn";
+import { handleSignIn } from "../../../components/handleData";
 
 const initValue = {
   email: { value: "", isValid: true },
@@ -52,7 +52,6 @@ export const SignIn = ({navigation}) => {
 
         try {
             const user = await signInUser(data);
-            console.log(user)
             if (user.status === "error") {
                 validateData()
                 Alert.alert(user.message);

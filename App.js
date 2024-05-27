@@ -23,13 +23,17 @@ import { colors } from "./src/constants/colors";
 import { useSelector } from "react-redux";
 import { selectUser } from "./src/redux/userSlice";
 import { selectCartProducts } from "./src/redux/cartSlice";
+import { selectOrders } from "./src/redux/orderSlice";
 
 const Tabs = createBottomTabNavigator();
 
 const AppTabs = () => {
   const user = useSelector(selectUser);
   const cartProducts = useSelector(selectCartProducts);
+  const orders = useSelector(selectOrders)
+  const newOrders = orders.filter(order => order.status === 'new');
   const totalNum_items = cartProducts.reduce((totnum, itm)=>totnum+itm.quantity, 0);
+  const totalNum_newOrders = newOrders.length
 
   return (
     <Tabs.Navigator
@@ -84,7 +88,16 @@ const AppTabs = () => {
           color: 'white'
         }
       }}/>
-      <Tabs.Screen name="My Orders" component={MyOrders} />
+      <Tabs.Screen name="My Orders" component={MyOrders}
+        options={{
+          tabBarBadge: totalNum_newOrders > 0 && user ? totalNum_newOrders : null, 
+          tabBarBadgeStyle: {
+            backgroundColor: colors.red,
+            fontFamily: 'Poppins_500Medium',
+            color: 'white'
+          }
+        }}
+      />
       <Tabs.Screen name="User Profile" component={UserProfile} />
     </Tabs.Navigator>
   );

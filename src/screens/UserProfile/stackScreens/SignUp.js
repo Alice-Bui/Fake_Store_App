@@ -9,7 +9,7 @@ import { signUpUser } from "../../../service/authService";
 import Button from "../../../components/Button";
 
 import { useDispatch } from "react-redux";
-import { handleSignIn } from "../../../service/handleSignIn";
+import { handleSignIn } from "../../../components/handleData";
 
 const initValue = {
     name: { value: "", isValid: true },

@@ -1,14 +1,19 @@
 // Home.js
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, Image, Pressable, Alert } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-import { selectCart, selectCartProducts, clearCart, increaseQuantity, decreaseQuantity } from "../../redux/cartSlice";
 import { Ionicons } from "@expo/vector-icons"; 
 import { colors } from "../../constants/colors";
 import Button from "../../components/Button";
 
+import { useSelector, useDispatch } from "react-redux";
+import { selectCart, selectCartProducts, clearCart, increaseQuantity, decreaseQuantity } from "../../redux/cartSlice";
+
 import { selectUser } from "../../redux/userSlice";
 import { updateUserCart } from "../../service/cartService";
+
+import { createNewOrder } from "../../service/orderService";
+import { fetchOrders } from "../../components/handleData";
+
 
 export const ShoppingCart = () => {
     const user = useSelector(selectUser);
@@ -39,9 +44,23 @@ export const ShoppingCart = () => {
         dispatch(decreaseQuantity(item))
     };
 
-    const handleCheckOut = () => {
-        dispatch(clearCart())
+    const handleCheckOut = async() => {
+        try {
+            const result = await createNewOrder(cart, user.token);
+            console.log("neworder", result)
+            if (result.status === "error") {
+                Alert.alert(result.message);
+            } else {
+                dispatch(clearCart())
+                fetchOrders(user, dispatch)
+            }
+        } catch (error) {
+            console.error("Create new order failed: ", error);
+            Alert.alert("Failed to create user's new order")
+        }
     }
+
+
     const totalNum_items = cartProducts.reduce((totnum, itm)=>totnum+itm.quantity, 0);
     const totalPrice_items = cartProducts.reduce((totprice, itm)=>totprice+itm.price*itm.quantity, 0)
     const roundTotalPrice_items = Math.ceil(totalPrice_items * 100) / 100;

@@ -28,7 +28,6 @@ export const updateUserCart = async(cart, token) => {
             body: JSON.stringify(cart),
         });
         const data = await res.json();
-        console.log(data)
         return data;
     } catch (error) {
         throw new Error("Failed to update cart" + error)

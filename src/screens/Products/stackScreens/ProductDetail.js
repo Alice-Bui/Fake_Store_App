@@ -5,8 +5,10 @@ import Title from '../../../components/Title';
 import Button from '../../../components/Button';
 import { ScrollView } from 'react-native-gesture-handler';
 
-import { useDispatch } from 'react-redux';
-import { addProductToCart } from '../../../redux/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCart, addProductToCart } from '../../../redux/cartSlice';
+import { updateUserCart } from '../../../service/cartService';
+import { selectUser } from '../../../redux/userSlice';
 import { colors } from '../../../constants/colors';
 import { fakeStoreServer } from '../../../service/serverSetting';
 
@@ -16,6 +18,8 @@ export const ProductDetails = ({navigation, route}) => {
     const [product, setProduct] = useState('');
     const [productDetails, displayProductDetails] = useState('')
 
+    const cart = useSelector(selectCart);
+    const user = useSelector(selectUser);
     const dispatch = useDispatch();
     
     const productListScreen = ()=>navigation.navigate('Product List')
@@ -49,6 +53,22 @@ export const ProductDetails = ({navigation, route}) => {
         return () => clearTimeout(timer);
     }, [product]);
 
+
+    useEffect(()=>{
+      const sendUpdateData = async() => {
+          try {
+              const result = await updateUserCart(cart, user.token);
+              if (result.status === "error") {
+                  Alert.alert(result.message);
+              }
+          } catch (error) {
+              console.error("Send update data failed: ", error);
+              Alert.alert("Failed to update user's cart")
+          }
+      };
+      sendUpdateData()
+    }, [cart])
+    
     const handleAddToCart = () => {
       dispatch(addProductToCart(productDetails));
     };

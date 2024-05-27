@@ -36,7 +36,7 @@ export const Profile = ({navigation}) => {
         <View style={styles.container}>
             <Title text="User Profile" />
             <View style={styles.profileContainer}>
-                <Ionicons name="person-circle" color={colors.lightgreen} size={175} />
+                <Ionicons name="person-circle" color={colors.pink} size={175} />
                 {update ? (
                     <Update user={user} handleUpdateData={handleUpdateData} setUpdate={setUpdate}/>
                 ) : (
