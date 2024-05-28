@@ -2,14 +2,14 @@
 
 import { View, StyleSheet, Text, Alert, Pressable } from "react-native";
 import { useState } from "react";
-import { FormInput } from "../../../components/FormInput";
+import { FormInput } from "../../../components/Profile/FormInput";
 import { Ionicons } from "@expo/vector-icons"; 
 import { colors } from "../../../constants/colors";
 import { signUpUser } from "../../../service/authService";
 import Button from "../../../components/Button";
 
 import { useDispatch } from "react-redux";
-import { handleSignIn } from "../../../components/handleData";
+import { handleSignIn } from "../../../service/statusService";
 
 const initValue = {
     name: { value: "", isValid: true },
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
-        color: colors.pink,
+        color: colors.red,
         fontFamily: "Poppins_600SemiBold",
         textAlign: 'center',
         paddingBottom: 10,

@@ -23,7 +23,6 @@ export const orderSlice = createSlice({
                     order.status = 'new'
                 }
             })
-            console.log(state.orders)
         },
         displayStatus: (state, action) => {
             const selectStatus = action.payload
@@ -46,8 +45,6 @@ export const orderSlice = createSlice({
             selectOrder.showDetails = selectOrder.showDetails.value === false
                 ? {value: true, icon: 'caret-down'}
                 : {value: false, icon: 'caret-up'}
-            console.log(typeof selectOrder.order_items)
-            console.log(typeof selectOrder)
         },
 
         updatePaidStatus: (state, action) => {

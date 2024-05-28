@@ -1,7 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { ProductList } from './stackScreens/ProductList';
 import { ProductDetails } from './stackScreens/ProductDetail';
-import { ProductCategories } from './stackScreens/ProductCategories';
+import { Categories } from './stackScreens/Categories';
 
 const Stack = createStackNavigator()
 
@@ -9,8 +9,8 @@ export const Products = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Product Categories"
-        component={ProductCategories}
+        name="Categories"
+        component={Categories}
         options={{ headerShown: false }}
       />
       <Stack.Screen

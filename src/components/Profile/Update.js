@@ -2,7 +2,7 @@
 
 import { View, StyleSheet, Text, Alert, Pressable } from "react-native";
 import { useState } from "react";
-import { FormInput } from "../FormInput";
+import { FormInput } from "./FormInput";
 import { colors } from "../../constants/colors";
 import Button from "../Button";
 import { updateUserProfile } from "../../service/authService";

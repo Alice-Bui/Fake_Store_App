@@ -1,84 +1,78 @@
+// ProductList.js
+
 import { StyleSheet, Text, View, Pressable, FlatList, Image, ActivityIndicator } from 'react-native';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadProductListData, selectProductList } from '../../../redux/product/productListSlice';
 import Title from '../../../components/Title';
 import Button from '../../../components/Button';
 import { colors } from '../../../constants/colors';
-import { fakeStoreServer } from '../../../service/serverSetting';
 
-export const ProductList = ({navigation, route}) => {
-    const [isLoading, setLoading] = useState(true);
-    
-    const [category, setCategory] = useState('');
-    const [products, displayProducts] = useState([]);
-    
-    const productCategoriesScreen = ()=>navigation.navigate('Product Categories')
-    const productDetailScreen = (productID)=>navigation.navigate({name: 'Product Details', params: {product: productID}})
-    
-    //Listen for changes to {category} from Category Screen
+export const ProductList = ({navigation, route}) => {    
+    const [productCategory, setProductCategory] = useState(route.params.productCategory)
+    const dispatch = useDispatch();
+    const [delay, setDelay] = useState(true);
+    const { productListData, loading, error } = useSelector(selectProductList); 
+    const CategoriesScreen = ()=>navigation.navigate('Categories')
+    const productDetailScreen = (id)=>navigation.navigate({name: 'Product Details', params: {productId: id}})
+
     useEffect(()=> {
-        if (route.params?.category) {
-            setCategory(route.params?.category);
+        if (route.params?.productCategory) {
+            setProductCategory(route.params?.productCategory);
         }
-    }, [route.params?.category]);
+    }, [route.params?.productCategory]);
 
-    useEffect(()=>{
-        const fetchProducts = async()=>{
-            const url = fakeStoreServer + "/products/category/";
-            try {
-                if (category != ''){
-                    const categoryName = await category.toLowerCase().replaceAll(" ", "%20")
-                    const res= await fetch(url+categoryName)
-                    const data = await res.json();
-                    displayProducts(data)
-                }
-            } catch(error) {
-                console.error('error fetch address ', error);
-                return [];
-            } finally {
-                setLoading(false)
-            }
+    const loadProductListIfRequired = () => {
+        if (!productListData[productCategory]) {
+            dispatch(loadProductListData(productCategory));
+            const timer = setTimeout(() => {
+                setDelay(false)
+            }, 2000); 
+            return () => clearTimeout(timer);
+        } else {
+            setDelay(false)
         }
+    };
 
-        const timer = setTimeout(() => {
-            fetchProducts();
-        }, 1000); //Delay 1 second
-        return () => clearTimeout(timer);
-    }, [category]);
+    useEffect(() => {
+        loadProductListIfRequired();
+    }, [productCategory]);
 
     return (
         <View style={styles.container}>
-            <Title text={category}/>
+            <Title text={productCategory}/>
             <View style = {styles.productContainer}>
-                {isLoading ? (
+                {(loading || delay) ? (
                     <ActivityIndicator size="large" color={colors.green}/>
-                    ) : (
+                ) : error ? (
+                    <Text>Error: {error}</Text>
+                ) : (
                     <FlatList
-                        data={products}
-                        renderItem={({item}) => (
-                            <Pressable 
+                    data={productListData[productCategory]}
+                    renderItem={({item}) => (
+                        <Pressable 
                             style={({ pressed }) => [styles.product, pressed && styles.pressed]} 
                             onPress={()=>productDetailScreen(item.id)}
-                            >
-                                <Image source={{uri: item.image}} style={styles.productImage}/>
-                                <View style={styles.productText}>
-                                    <Text style={styles.productName}>{item.title}</Text>
-                                    <Text style={styles.productPrice}>Price:
-                                        <Text style={styles.productName}> ${item.price}</Text>
-                                    </Text>
-                                </View>
-                            </Pressable>
-                        )}
-                        keyExtractor={(item) => item.id}
+                        >
+                            <Image source={{uri: item.image}} style={styles.productImage}/>
+                            <View style={styles.productText}>
+                                <Text style={styles.productName}>{item.title}</Text>
+                                <Text style={styles.productPrice}>Price:
+                                    <Text style={styles.productName}> ${item.price}</Text>
+                                </Text>
+                            </View>
+                        </Pressable>
+                    )}
+                    keyExtractor={(item) => item.id}
                     />
                 )}
             </View>
             <View>
-                <Button text="Back" name="backspace" color={colors.green} f={productCategoriesScreen} width={170}/>
+                <Button text="Back" name="backspace" color={colors.green} f={CategoriesScreen} width={170}/>
             </View>
-
         </View>
     );
-    }
+}
 
 const styles = StyleSheet.create({
   container: {

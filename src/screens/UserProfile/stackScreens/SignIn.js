@@ -2,14 +2,14 @@
 
 import { View, StyleSheet, Text, Alert, Pressable } from "react-native";
 import { useState } from "react";
-import { FormInput } from "../../../components/FormInput";
+import { FormInput } from "../../../components/Profile/FormInput";
 import { Ionicons } from "@expo/vector-icons"; 
 import { colors } from "../../../constants/colors";
 import { signInUser } from "../../../service/authService";
 import Button from "../../../components/Button";
 
 import { useDispatch } from "react-redux";
-import { handleSignIn } from "../../../components/handleData";
+import { handleSignIn } from "../../../service/statusService";
 
 const initValue = {
   email: { value: "", isValid: true },

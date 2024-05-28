@@ -105,11 +105,11 @@ export const MyOrders = () => {
         };
         try {
             const result = await updateOrder(update, user.token)
-            console.log(result)
             if (result.status === "error") {
                 Alert.alert(user.message);
             } else if (result.result.changes > 0){
                 dispatch(updatePaidStatus(order))
+                Alert.alert("You have paid an order")
             }
         } catch(error){
             console.error("Send update order failed: ", error)
@@ -125,11 +125,11 @@ export const MyOrders = () => {
         };
         try {
             const result = await updateOrder(update, user.token)
-            console.log(result)
             if (result.status === "error") {
                 Alert.alert(user.message);
             } else if (result.result.changes > 0){
                 dispatch(updateDeliveredStatus(order))
+                Alert.alert("Your order has been delivered")
             }
         } catch(error){
             console.error("Send update order failed: ", error)
@@ -275,6 +275,7 @@ const styles = StyleSheet.create({
         resizeMode: "contain",
         borderRadius: 10,
         marginRight: "5%",
+        backgroundColor: 'white'
       },
 
     line: {

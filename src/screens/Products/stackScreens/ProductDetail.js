@@ -1,4 +1,5 @@
-// src/screens/Products/ProductDetails.js
+// ProductDetails.js
+
 import { StyleSheet, Text, View, Image, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Title from '../../../components/Title';
@@ -6,53 +7,43 @@ import Button from '../../../components/Button';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { loadProductData, selectProductData} from '../../../redux/product/productSlice';
 import { selectCart, addProductToCart } from '../../../redux/cartSlice';
 import { updateUserCart } from '../../../service/cartService';
 import { selectUser } from '../../../redux/userSlice';
 import { colors } from '../../../constants/colors';
-import { fakeStoreServer } from '../../../service/serverSetting';
 
 export const ProductDetails = ({navigation, route}) => {
-    const [isLoading, setLoading] = useState(true);
-    
-    const [product, setProduct] = useState('');
-    const [productDetails, displayProductDetails] = useState('')
-
+    const [productId, setProductId] = useState(route.params.productId);
+    const dispatch = useDispatch();
+    const [delay, setDelay] = useState(true);
+    const { productData, loading, error } = useSelector(selectProductData);
     const cart = useSelector(selectCart);
     const user = useSelector(selectUser);
-    const dispatch = useDispatch();
     
-    const productListScreen = ()=>navigation.navigate('Product List')
+    const productListScreen = ()=>navigation.navigate({name: 'Product List', params: {productCategory: productData[productId].category}})
     
-    //Listen for changes to {category} from Category Screen
     useEffect(()=> {
-        if (route.params?.product) {
-            setProduct(route.params?.product);
+        if (route.params?.productId) {
+            setProductId(route.params?.productId);
         }
-    }, [route.params?.category]);
+    }, [route.params?.productId]);
 
-    useEffect(()=>{
-        const fetchProductDetails = async()=>{
-            const url = fakeStoreServer + "/products/";
-            try {
-                if (product != ''){
-                    const res= await fetch(url+product)
-                    const data = await res.json();
-                    displayProductDetails(data)
-                }
-            } catch(error) {
-                console.error('error fetch address ', error);
-                return {};
-            } finally {
-                setLoading(false)
-            }
-        }
-        const timer = setTimeout(() => {
-            fetchProductDetails()
-        }, 1000); //Delay 1 second
-        return () => clearTimeout(timer);
-    }, [product]);
+    const loadProductIfRequired = () => {
+      if (!productData[productId]) {
+          dispatch(loadProductData(productId));
+          const timer = setTimeout(() => {
+              setDelay(false)
+          }, 2000); 
+          return () => clearTimeout(timer);
+      } else {
+          setDelay(false)
+      }
+    };
 
+    useEffect(() => {
+      loadProductIfRequired();
+    }, [productId]);
 
     useEffect(()=>{
       const sendUpdateData = async() => {
@@ -70,33 +61,35 @@ export const ProductDetails = ({navigation, route}) => {
     }, [cart])
     
     const handleAddToCart = () => {
-      dispatch(addProductToCart(productDetails));
+      dispatch(addProductToCart(productData[productId]));
     };
 
     return (
         <View style={styles.container}>
             <Title text="Product Details"/>
-            {isLoading ? (
-                <View style={[{marginVertical: '100%'}]}>
+            {(loading || delay) ? (
+                <View style={[{marginVertical: '90%'}]}>
                     <ActivityIndicator size="large" color={colors.green}/>
                 </View>
+            ) : error ? (
+              <Text>Error: {error}</Text>
             ) : (
                 <View>
                     <View style={styles.productDetailsContainer}>
-                        <Image source={{uri: productDetails.image}} style={styles.productImage}/>
+                        <Image source={{uri: productData[productId].image}} style={styles.productImage}/>
                     </View>
                     <View style={styles.detailsText}>
-                        <Text style={styles.productTitle}>{productDetails.title}</Text>
+                        <Text style={styles.productTitle}>{productData[productId].title}</Text>
                         
                         <View style={styles.detailsNumber}>
                             <Text style={styles.textKey}>Rate: 
-                                <Text style={styles.textValue}> {productDetails.rating.rate}</Text>
+                                <Text style={styles.textValue}> {productData[productId].rating.rate}</Text>
                             </Text>
                             <Text style={styles.textKey}>Sold: 
-                                <Text style={styles.textValue}> {productDetails.rating.count}</Text>
+                                <Text style={styles.textValue}> {productData[productId].rating.count}</Text>
                             </Text>
                             <Text style={styles.textKey}>Price: 
-                                <Text style={styles.textValue}> ${productDetails.price}</Text>
+                                <Text style={styles.textValue}> ${productData[productId].price}</Text>
                             </Text>
                         </View>
 
@@ -109,7 +102,7 @@ export const ProductDetails = ({navigation, route}) => {
                             <Text style={styles.descriptionTitle}>Description:</Text>
                             <View style={styles.descriptionText}>
                                 <ScrollView>
-                                    <Text style={styles.desText}>{productDetails.description}</Text>
+                                    <Text style={styles.desText}>{productData[productId].description}</Text>
                                 </ScrollView>
                             </View>
                         </View>

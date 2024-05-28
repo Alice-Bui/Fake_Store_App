@@ -5,8 +5,8 @@ import { Alert } from "react-native";
 import { setCart } from "../redux/cartSlice";
 import { setUser } from "../redux/userSlice";
 import { setOrders } from "../redux/orderSlice";
-import { retrieveUserCart} from "../service/cartService";
-import { retrieveAllOrders } from "../service/orderService";
+import { retrieveUserCart} from "./cartService";
+import { retrieveAllOrders } from "./orderService";
 
 export const fetchOrders = async(user, dispatch) => {
     try {
@@ -14,7 +14,6 @@ export const fetchOrders = async(user, dispatch) => {
         if (result.status === "error") {
             Alert.alert(result.message);
         } else {
-            console.log(result.orders)
             dispatch(setOrders(result.orders));
         }
     } catch (error) {

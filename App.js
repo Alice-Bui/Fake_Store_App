@@ -69,7 +69,7 @@ const AppTabs = () => {
       })}
       screenListeners={({ route }) => ({
         tabPress: (e) => {
-          if (!user && route.name != "User Profile") {
+          if (!user.token && route.name != "User Profile") {
             e.preventDefault();
             Alert.alert(
               "You need to be signed in to access this section. Please sign in or sign up to continue."
@@ -98,7 +98,14 @@ const AppTabs = () => {
           }
         }}
       />
-      <Tabs.Screen name="User Profile" component={UserProfile} />
+      <Tabs.Screen name="User Profile" component={UserProfile} 
+        listeners={({navigation, route}) => ({
+          tabPress: () => {
+            if (route.name == 'User Profile') 
+              navigation.navigate('User Profile', {screen: 'Sign Up'})
+          }
+        })}
+      />
     </Tabs.Navigator>
   );
 };

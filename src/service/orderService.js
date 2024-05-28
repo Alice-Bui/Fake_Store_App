@@ -1,3 +1,4 @@
+// orderService.js
 import { fakeStoreServer } from "./serverSetting";
 
 export const createNewOrder = async(cart, token) => {
@@ -13,7 +14,6 @@ export const createNewOrder = async(cart, token) => {
             body: JSON.stringify(cart)
         });
         const data = await res.json();
-    
         return data;
     } catch (error) {
         throw new Error("Failed to create new order: " + error)

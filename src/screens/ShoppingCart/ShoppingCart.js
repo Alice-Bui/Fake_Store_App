@@ -12,7 +12,7 @@ import { selectUser } from "../../redux/userSlice";
 import { updateUserCart } from "../../service/cartService";
 
 import { createNewOrder } from "../../service/orderService";
-import { fetchOrders } from "../../components/handleData";
+import { fetchOrders } from "../../service/statusService";
 
 
 export const ShoppingCart = () => {
@@ -47,12 +47,12 @@ export const ShoppingCart = () => {
     const handleCheckOut = async() => {
         try {
             const result = await createNewOrder(cart, user.token);
-            console.log("neworder", result)
             if (result.status === "error") {
                 Alert.alert(result.message);
             } else {
-                dispatch(clearCart())
-                fetchOrders(user, dispatch)
+                dispatch(clearCart());
+                fetchOrders(user, dispatch);
+                Alert.alert("New order has been created")
             }
         } catch (error) {
             console.error("Create new order failed: ", error);
