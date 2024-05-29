@@ -1,6 +1,5 @@
-// handleSignIn.js
+// statusService.js
 
-import { useDispatch } from "react-redux";
 import { Alert } from "react-native";
 import { setCart } from "../redux/cartSlice";
 import { setUser } from "../redux/userSlice";

@@ -55,7 +55,6 @@ export const Update = ({user, handleUpdateData, setUpdate}) => {
             const result = await updateUserProfile(data);
             if (result.status === "error") {
                 Alert.alert(result.message);
-                console.log(user)
             } else {
                 Alert.alert(result.message);
                 handleUpdateData(result.name);

@@ -1,3 +1,5 @@
+//FormInput.js
+
 import { Text, TextInput, View, StyleSheet } from "react-native";
 import { colors } from "../../constants/colors";
 

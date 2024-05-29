@@ -1,5 +1,5 @@
 // Home.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, FlatList, Image, Pressable, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons"; 
 import { colors } from "../../constants/colors";
